@@ -1,6 +1,6 @@
 package com.alexmilovanov.randomwisdom.di.ui
 
-import com.alexmilovanov.randomwisdom.MainActivity
+import com.alexmilovanov.randomwisdom.view.ui.MainActivity
 import com.alexmilovanov.randomwisdom.di.Scopes
 import dagger.Module
 import dagger.android.ContributesAndroidInjector

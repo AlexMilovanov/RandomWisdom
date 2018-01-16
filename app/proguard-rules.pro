@@ -26,6 +26,11 @@
 -keep class android.support.v7.widget.** { *; }
 -keep interface android.support.v7.widget.** { *; }
 
+#Kotlin
+-keepclassmembernames class kotlinx.** {
+    volatile <fields>;
+}
+
 # Retrofit
 # Platform calls Class.forName on types which do not exist on Android to determine platform.
 -dontnote retrofit2.Platform
