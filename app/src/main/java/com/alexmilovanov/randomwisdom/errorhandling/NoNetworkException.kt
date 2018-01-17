@@ -1,4 +1,4 @@
-package com.alexmilovanov.randomwisdom.error_handling
+package com.alexmilovanov.randomwisdom.errorhandling
 
 import java.io.IOException
 

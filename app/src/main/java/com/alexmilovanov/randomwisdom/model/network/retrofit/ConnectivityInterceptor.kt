@@ -3,7 +3,7 @@ package com.alexmilovanov.randomwisdom.model.network.retrofit
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import com.alexmilovanov.randomwisdom.R
-import com.alexmilovanov.randomwisdom.error_handling.NoNetworkException
+import com.alexmilovanov.randomwisdom.errorhandling.NoNetworkException
 import com.alexmilovanov.randomwisdom.view.util.ResourceProvider
 import okhttp3.Interceptor
 import okhttp3.Response
