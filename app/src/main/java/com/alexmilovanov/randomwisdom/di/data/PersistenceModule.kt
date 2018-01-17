@@ -3,8 +3,8 @@ package com.alexmilovanov.randomwisdom.di.data
 import android.arch.persistence.room.Room
 import android.content.Context
 import com.alexmilovanov.randomwisdom.di.ApplicationContext
-import com.alexmilovanov.randomwisdom.model.persistence.AppDatabase
-import com.alexmilovanov.randomwisdom.model.persistence.quotes.FavoritesDao
+import com.alexmilovanov.randomwisdom.data.persistence.AppDatabase
+import com.alexmilovanov.randomwisdom.data.persistence.quotes.FavoritesDao
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton

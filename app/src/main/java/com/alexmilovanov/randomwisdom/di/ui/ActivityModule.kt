@@ -1,7 +1,8 @@
 package com.alexmilovanov.randomwisdom.di.ui
 
-import com.alexmilovanov.randomwisdom.view.ui.MainActivity
+import com.alexmilovanov.randomwisdom.view.randomquote.MainActivity
 import com.alexmilovanov.randomwisdom.di.Scopes
+import com.alexmilovanov.randomwisdom.view.randomquote.MainActivityModule
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -12,6 +13,7 @@ import dagger.android.ContributesAndroidInjector
 internal abstract class ActivityModule {
 
     @Scopes.PerActivity
-    @ContributesAndroidInjector()
+    @ContributesAndroidInjector(modules = [MainActivityModule::class])
     abstract fun contributeMainActivity(): MainActivity
+
 }

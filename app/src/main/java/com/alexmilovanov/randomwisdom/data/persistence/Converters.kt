@@ -1,4 +1,4 @@
-package com.alexmilovanov.randomwisdom.model.persistence
+package com.alexmilovanov.randomwisdom.data.persistence
 
 import android.arch.persistence.room.TypeConverter
 

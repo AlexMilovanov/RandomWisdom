@@ -1,4 +1,4 @@
-package com.alexmilovanov.randomwisdom.model.network.retrofit
+package com.alexmilovanov.randomwisdom.data.network.retrofit
 
 import android.net.ConnectivityManager
 import android.net.NetworkInfo

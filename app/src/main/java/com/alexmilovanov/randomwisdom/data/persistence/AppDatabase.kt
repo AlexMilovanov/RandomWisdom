@@ -1,10 +1,10 @@
-package com.alexmilovanov.randomwisdom.model.persistence
+package com.alexmilovanov.randomwisdom.data.persistence
 
 import android.arch.persistence.room.Database
 import android.arch.persistence.room.RoomDatabase
 import android.arch.persistence.room.TypeConverters
-import com.alexmilovanov.randomwisdom.model.persistence.quotes.FavoritesDao
-import com.alexmilovanov.randomwisdom.model.persistence.quotes.Quote
+import com.alexmilovanov.randomwisdom.data.persistence.quotes.FavoritesDao
+import com.alexmilovanov.randomwisdom.data.persistence.quotes.Quote
 
 
 /**

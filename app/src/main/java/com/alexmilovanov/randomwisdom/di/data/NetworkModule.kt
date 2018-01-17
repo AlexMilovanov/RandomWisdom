@@ -4,10 +4,11 @@ import android.content.Context
 import android.net.ConnectivityManager
 import com.alexmilovanov.randomwisdom.BuildConfig
 import com.alexmilovanov.randomwisdom.di.ApplicationContext
-import com.alexmilovanov.randomwisdom.model.ApiConstants.Companion.BASE_URL
-import com.alexmilovanov.randomwisdom.model.ApiConstants.Companion.HTTP_CONNECTION_TIMEOUT_SECONDS
-import com.alexmilovanov.randomwisdom.model.network.ApiService
-import com.alexmilovanov.randomwisdom.model.network.retrofit.ConnectivityInterceptor
+import com.alexmilovanov.randomwisdom.data.ApiConstants.Companion.BASE_URL
+import com.alexmilovanov.randomwisdom.data.ApiConstants.Companion.HTTP_CONNECTION_TIMEOUT_SECONDS
+import com.alexmilovanov.randomwisdom.data.network.ApiService
+import com.alexmilovanov.randomwisdom.data.network.retrofit.ConnectivityInterceptor
+import com.alexmilovanov.randomwisdom.data.network.retrofit.HeadersInterceptor
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
@@ -27,7 +28,8 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    internal fun provideOkHttpClient(networkInterceptor: ConnectivityInterceptor): OkHttpClient {
+    internal fun provideOkHttpClient(connectivityInterceptor: ConnectivityInterceptor,
+                                     headersInterceptor: HeadersInterceptor): OkHttpClient {
         // The singleton HTTP client.
         val builder = OkHttpClient.Builder().apply {
             // Define timeout values
@@ -35,7 +37,8 @@ class NetworkModule {
             readTimeout(HTTP_CONNECTION_TIMEOUT_SECONDS, TimeUnit.SECONDS)
             writeTimeout(HTTP_CONNECTION_TIMEOUT_SECONDS, TimeUnit.SECONDS)
             // Add required interceptors
-            addInterceptor(networkInterceptor)
+            addInterceptor(connectivityInterceptor)
+            addInterceptor(headersInterceptor)
             // Enable logs only in debug version
             addInterceptor(HttpLoggingInterceptor().setLevel(
                     if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY
@@ -52,7 +55,6 @@ class NetworkModule {
         val builder = Retrofit.Builder().apply {
             baseUrl(BASE_URL)
             client(client)
-            //addCallAdapterFactory(LiveDataCallAdapterFactory())
             addConverterFactory(GsonConverterFactory.create(buildGson()))
         }
 
