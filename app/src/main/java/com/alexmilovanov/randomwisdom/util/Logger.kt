@@ -1,4 +1,4 @@
-package com.alexmilovanov.randomwisdom.view.util
+package com.alexmilovanov.randomwisdom.util
 
 import timber.log.Timber
 

@@ -1,4 +1,4 @@
-package com.alexmilovanov.randomwisdom.view.randomquote
+package com.alexmilovanov.randomwisdom.view
 
 import android.os.Bundle
 import com.alexmilovanov.randomwisdom.R

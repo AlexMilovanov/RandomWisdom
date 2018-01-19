@@ -4,7 +4,7 @@ import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import com.alexmilovanov.randomwisdom.R
 import com.alexmilovanov.randomwisdom.errorhandling.NoNetworkException
-import com.alexmilovanov.randomwisdom.view.util.ResourceProvider
+import com.alexmilovanov.randomwisdom.util.resources.IResourceProvider
 import okhttp3.Interceptor
 import okhttp3.Response
 import javax.inject.Inject
@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 // Class that implements Interceptor to perform a network connectivity check before executing the request.
 class ConnectivityInterceptor @Inject constructor(private val connectManager: ConnectivityManager,
-                                                  private val resProvider: ResourceProvider)
+                                                  private val resProvider: IResourceProvider)
     : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {

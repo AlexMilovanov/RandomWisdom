@@ -1,4 +1,4 @@
-package com.alexmilovanov.randomwisdom.view.randomquote
+package com.alexmilovanov.randomwisdom.randomquote
 
 import dagger.android.support.DaggerFragment
 

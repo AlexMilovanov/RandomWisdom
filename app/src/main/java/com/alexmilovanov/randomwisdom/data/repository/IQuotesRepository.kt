@@ -1,6 +1,7 @@
 package com.alexmilovanov.randomwisdom.data.repository
 
 import com.alexmilovanov.randomwisdom.data.persistence.quotes.Quote
+import io.reactivex.Completable
 import io.reactivex.Single
 
 /**
@@ -8,5 +9,6 @@ import io.reactivex.Single
  */
 interface IQuotesRepository {
 
+    fun loadInitialQuotes(): Completable
     fun getRandomQuote(): Single<Quote>
 }

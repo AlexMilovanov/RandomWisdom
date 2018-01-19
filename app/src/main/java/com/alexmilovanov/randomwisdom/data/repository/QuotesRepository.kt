@@ -19,6 +19,16 @@ constructor(private val apiService: ApiService) : IQuotesRepository {
     private val cachedQuotes: Queue<Quote> = PriorityQueue()
 
     /**
+     * Ensure cached quotes are available before the first quote is requested
+     */
+    override fun loadInitialQuotes(): Completable {
+        if(cachedQuotes.isEmpty()) {
+           return refreshQuotes()
+        }
+        return Completable.complete()
+    }
+
+    /**
      * Gets first quote from the cached queue if not empty. Request quotes refresh otherwise.
      */
     override fun getRandomQuote(): Single<Quote> {

@@ -1,7 +1,7 @@
-package com.alexmilovanov.randomwisdom.view.randomquote
+package com.alexmilovanov.randomwisdom.view
 
 import com.alexmilovanov.randomwisdom.di.Scopes
-import com.alexmilovanov.randomwisdom.view.randomquote.RandomQuoteFragment
+import com.alexmilovanov.randomwisdom.randomquote.RandomQuoteFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
