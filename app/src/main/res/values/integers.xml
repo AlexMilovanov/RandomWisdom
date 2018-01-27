@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="activity_fade_out_animation_duration">400</integer>
+    <integer name="slide_animation_duration_short">200</integer>
+    <integer name="slide_animation_duration_medium">300</integer>
+</resources>
