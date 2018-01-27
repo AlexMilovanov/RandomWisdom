@@ -1,4 +1,4 @@
-package com.alexmilovanov.randomwisdom.di.data
+package com.alexmilovanov.randomwisdom.di.module
 
 import android.content.Context
 import com.alexmilovanov.randomwisdom.RandomWisdomApp
@@ -20,10 +20,10 @@ interface UtilModule {
 
     @Binds
     @Singleton
-    fun provideResourceProvider(provider: SchedulerProvider): ISchedulerProvider
+    fun provideSchedulerProvider(provider: SchedulerProvider): ISchedulerProvider
 
     @Binds
     @Singleton
-    fun provideSchedulerProvider(provider: ResourceProvider): IResourceProvider
+    fun provideResourceProvider(provider: ResourceProvider): IResourceProvider
 
 }

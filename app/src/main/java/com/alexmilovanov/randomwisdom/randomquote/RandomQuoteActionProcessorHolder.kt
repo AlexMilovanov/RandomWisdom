@@ -5,7 +5,6 @@ import io.reactivex.Observable
 import com.alexmilovanov.randomwisdom.mvibase.MviAction
 import com.alexmilovanov.randomwisdom.mvibase.MviResult
 import com.alexmilovanov.randomwisdom.util.schedulers.ISchedulerProvider
-import com.alexmilovanov.randomwisdom.randomquote.RandomQuoteAction.RequestNextQuoteAction
 import com.alexmilovanov.randomwisdom.randomquote.RandomQuoteResult.RequestNextQuoteResult
 import io.reactivex.ObservableTransformer
 import javax.inject.Inject

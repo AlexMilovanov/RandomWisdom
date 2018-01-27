@@ -1,7 +1,8 @@
-package com.alexmilovanov.randomwisdom.view
+package com.alexmilovanov.randomwisdom.main
 
 import com.alexmilovanov.randomwisdom.di.Scopes
 import com.alexmilovanov.randomwisdom.randomquote.RandomQuoteFragment
+import dagger.Binds
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -15,5 +16,9 @@ interface MainActivityModule {
     @Scopes.PerFragment
     @ContributesAndroidInjector
     fun contributeSymptomsFragment(): RandomQuoteFragment
+
+    @Scopes.PerActivity
+    @Binds
+    fun provideMainNavigator(navigator: MainNavigationController): MainNavigator
 
 }

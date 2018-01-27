@@ -1,4 +1,4 @@
-package com.alexmilovanov.randomwisdom.di.data
+package com.alexmilovanov.randomwisdom.di.module
 
 import android.content.Context
 import android.net.ConnectivityManager

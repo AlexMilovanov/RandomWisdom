@@ -2,11 +2,13 @@ package com.alexmilovanov.randomwisdom.util.schedulers
 
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import javax.inject.Inject
 
 /**
  * Provides different types of schedulers.
  */
-object SchedulerProvider : ISchedulerProvider {
+class SchedulerProvider
+@Inject constructor () : ISchedulerProvider {
 
     override fun io() = Schedulers.io()
 

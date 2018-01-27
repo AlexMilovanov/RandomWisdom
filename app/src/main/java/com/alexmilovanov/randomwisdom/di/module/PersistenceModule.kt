@@ -1,4 +1,4 @@
-package com.alexmilovanov.randomwisdom.di.data
+package com.alexmilovanov.randomwisdom.di.module
 
 import android.arch.persistence.room.Room
 import android.content.Context

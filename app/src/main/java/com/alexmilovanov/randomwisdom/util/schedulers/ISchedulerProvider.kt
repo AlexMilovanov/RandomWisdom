@@ -3,7 +3,7 @@ package com.alexmilovanov.randomwisdom.util.schedulers
 import io.reactivex.Scheduler
 
 /**
- * DEfines methods for providing different types of [Scheduler]s.
+ * Defines methods for providing different types of [Scheduler]s.
  */
 interface ISchedulerProvider {
 

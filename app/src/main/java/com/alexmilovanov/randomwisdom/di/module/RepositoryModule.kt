@@ -1,4 +1,4 @@
-package com.alexmilovanov.randomwisdom.di.data
+package com.alexmilovanov.randomwisdom.di.module
 
 import com.alexmilovanov.randomwisdom.data.repository.IQuotesRepository
 import com.alexmilovanov.randomwisdom.data.repository.QuotesRepository

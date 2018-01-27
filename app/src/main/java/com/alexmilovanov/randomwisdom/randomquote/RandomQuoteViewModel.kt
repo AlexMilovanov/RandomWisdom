@@ -1,6 +1,5 @@
 package com.alexmilovanov.randomwisdom.randomquote
 
-import android.arch.lifecycle.ViewModel
 import com.alexmilovanov.randomwisdom.mvibase.MviViewModel
 import com.alexmilovanov.randomwisdom.mvibase.MviIntent
 import com.alexmilovanov.randomwisdom.mvibase.MviAction
@@ -10,6 +9,7 @@ import com.alexmilovanov.randomwisdom.mvibase.MviResult
 import com.alexmilovanov.randomwisdom.randomquote.RandomQuoteResult.RequestNextQuoteResult
 import com.alexmilovanov.randomwisdom.randomquote.RandomQuoteIntent.InitialIntent
 import com.alexmilovanov.randomwisdom.util.notOfType
+import com.alexmilovanov.randomwisdom.view.BaseViewModel
 import io.reactivex.Observable
 import io.reactivex.ObservableTransformer
 import io.reactivex.functions.BiFunction
@@ -22,8 +22,8 @@ import javax.inject.Inject
  * @property actionProcessorHolder Contains and executes the business logic of all emitted actions.
  */
 class RandomQuoteViewModel
-@Inject constructor( private val actionProcessorHolder: RandomQuoteActionProcessorHolder)
-    : ViewModel(), MviViewModel<RandomQuoteIntent, RandomQuoteViewState> {
+@Inject constructor(private val actionProcessorHolder: RandomQuoteActionProcessorHolder)
+    : BaseViewModel(), MviViewModel<RandomQuoteIntent, RandomQuoteViewState> {
 
     /**
      * Proxy subject used to keep the stream alive even after the UI gets recycled.

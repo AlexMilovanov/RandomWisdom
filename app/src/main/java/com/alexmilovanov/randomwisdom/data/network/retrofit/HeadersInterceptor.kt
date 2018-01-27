@@ -2,11 +2,12 @@ package com.alexmilovanov.randomwisdom.data.network.retrofit
 
 import okhttp3.Interceptor
 import okhttp3.Response
+import javax.inject.Inject
 
 /**
  * Sets headers to original request.
  */
-class HeadersInterceptor : Interceptor {
+class HeadersInterceptor @Inject constructor() : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain?): Response {
 

@@ -1,11 +1,7 @@
 package com.alexmilovanov.randomwisdom.di
 
 import com.alexmilovanov.randomwisdom.RandomWisdomApp
-import com.alexmilovanov.randomwisdom.di.data.RepositoryModule
-import com.alexmilovanov.randomwisdom.di.data.NetworkModule
-import com.alexmilovanov.randomwisdom.di.data.PersistenceModule
-import com.alexmilovanov.randomwisdom.di.data.UtilModule
-import com.alexmilovanov.randomwisdom.di.ui.ActivityModule
+import com.alexmilovanov.randomwisdom.di.module.*
 import dagger.Component
 import dagger.android.AndroidInjector
 import dagger.android.support.AndroidSupportInjectionModule
@@ -15,11 +11,11 @@ import javax.inject.Singleton
 @Singleton
 @Component(modules = [AndroidSupportInjectionModule::class,
                       AppModule::class,
-                      ActivityModule::class,
                       NetworkModule::class,
                       PersistenceModule::class,
                       RepositoryModule::class,
-                      UtilModule::class])
+                      UtilModule::class,
+                      ViewModelModule::class])
 interface AppComponent : AndroidInjector<RandomWisdomApp> {
 
     @Component.Builder

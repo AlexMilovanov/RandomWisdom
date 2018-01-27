@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">RandomWisdom</string>
 
+    <string name="random_button_text">Next</string>
+
     <string name="error_message_no_network">Internet not available. Please check your connection and try again.</string>
     <string name="error_message_unexpected_error">Unexpected error occurred. Please try again later.</string>
 </resources>

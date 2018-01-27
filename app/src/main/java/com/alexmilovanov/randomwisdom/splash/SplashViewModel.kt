@@ -1,9 +1,9 @@
 package com.alexmilovanov.randomwisdom.splash
 
-import android.arch.lifecycle.ViewModel
 import com.alexmilovanov.randomwisdom.mvibase.*
 import com.alexmilovanov.randomwisdom.splash.AppLaunchResult.InitialQuotesResult
 import com.alexmilovanov.randomwisdom.util.notOfType
+import com.alexmilovanov.randomwisdom.view.BaseViewModel
 import io.reactivex.Observable
 import io.reactivex.ObservableTransformer
 import io.reactivex.functions.BiFunction
@@ -17,7 +17,7 @@ import javax.inject.Inject
  */
 class SplashViewModel
 @Inject constructor(private val actionProcessorHolder: AppLaunchActionProcessorHolder)
-    : ViewModel(), MviViewModel<AppLaunchIntent, SplashViewState> {
+    : BaseViewModel(), MviViewModel<AppLaunchIntent, SplashViewState> {
 
     /**
      * Proxy subject used to keep the stream alive even after the UI gets recycled.
