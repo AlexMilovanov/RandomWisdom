@@ -8,7 +8,7 @@ import com.alexmilovanov.randomwisdom.mvibase.MviResult
 sealed class AppLaunchResult : MviResult {
 
     sealed class InitialQuotesResult : AppLaunchResult() {
-        object Success : InitialQuotesResult()
+        object Success: InitialQuotesResult()
         data class Failure(val error: Throwable) : InitialQuotesResult()
         object InFlight : InitialQuotesResult()
     }

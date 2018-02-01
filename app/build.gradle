@@ -26,7 +26,7 @@ android {
             minifyEnabled false
             useProguard false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            applicationIdSuffix ".debug"
+            //applicationIdSuffix ".debug"
         }
         release {
             debuggable="false"
@@ -72,8 +72,8 @@ dependencies {
 
     // Architecture Components
     implementation "android.arch.lifecycle:runtime:$rootProject.architectureLifecycleVersion"
-    implementation "android.arch.lifecycle:extensions:$rootProject.architectureComponentsVersion"
-    implementation "android.arch.lifecycle:reactivestreams:$rootProject.architectureComponentsVersion"
+    implementation "android.arch.lifecycle:extensions:$rootProject.architectureLifecycleVersion"
+    implementation "android.arch.lifecycle:reactivestreams:$rootProject.architectureLifecycleVersion"
     kapt "android.arch.lifecycle:compiler:$rootProject.architectureComponentsVersion"
     implementation "android.arch.persistence.room:runtime:$rootProject.architectureComponentsVersion"
     kapt "android.arch.persistence.room:compiler:$rootProject.architectureComponentsVersion"
@@ -89,12 +89,13 @@ dependencies {
         exclude module: 'okhttp'
     }
     implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
-    implementation "com.squareup.retrofit2:adapter-rxjava:$retrofitVersion"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
     implementation "com.google.code.gson:gson:$rootProject.gsonVersion"
 
     implementation "io.reactivex.rxjava2:rxjava:$rootProject.rxJava2Version"
     implementation "io.reactivex.rxjava2:rxandroid:$rootProject.rxAndroidVersion"
     implementation "io.reactivex.rxjava2:rxkotlin:$rootProject.rxKotlinVersion"
+    implementation "com.jakewharton.rxbinding2:rxbinding-kotlin:$rootProject.rxBindingsVersion"
 
     implementation "com.jakewharton.timber:timber:$rootProject.timberVersion"
 

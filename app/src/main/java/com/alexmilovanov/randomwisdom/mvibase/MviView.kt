@@ -10,7 +10,7 @@ import io.reactivex.Observable
  * @param I Top class of the [MviIntent] that the [MviView] will be emitting.
  * @param S Top class of the [MviViewState] the [MviView] will be subscribing to.
  */
-interface MviView <I : MviIntent, in S : MviViewState> {
+interface MviView <I : MviIntent, in VS : MviViewState> {
     /**
      * Unique [Observable] used by the [MviViewModel]
      * to listen to the [MviView].
@@ -21,5 +21,5 @@ interface MviView <I : MviIntent, in S : MviViewState> {
     /**
      * Entry point for the [MviView] to render itself based on a [MviViewState].
      */
-    fun render(state: S)
+    fun render(state: VS)
 }

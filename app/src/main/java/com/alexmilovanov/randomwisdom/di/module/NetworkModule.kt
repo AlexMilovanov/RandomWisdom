@@ -2,7 +2,6 @@ package com.alexmilovanov.randomwisdom.di.module
 
 import android.content.Context
 import android.net.ConnectivityManager
-import com.alexmilovanov.randomwisdom.BuildConfig
 import com.alexmilovanov.randomwisdom.di.ApplicationContext
 import com.alexmilovanov.randomwisdom.data.ApiConstants.Companion.BASE_URL
 import com.alexmilovanov.randomwisdom.data.ApiConstants.Companion.HTTP_CONNECTION_TIMEOUT_SECONDS
@@ -16,6 +15,7 @@ import dagger.Provides
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
@@ -41,9 +41,10 @@ class NetworkModule {
             addInterceptor(headersInterceptor)
             // Enable logs only in debug version
             addInterceptor(HttpLoggingInterceptor().setLevel(
-                    if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY
-                    else HttpLoggingInterceptor.Level.NONE)
-            )
+                    HttpLoggingInterceptor.Level.BODY
+                    // if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY
+                    // else HttpLoggingInterceptor.Level.NONE)
+            ))
         }
         return builder.build()
     }
@@ -54,6 +55,7 @@ class NetworkModule {
 
         val builder = Retrofit.Builder().apply {
             baseUrl(BASE_URL)
+            addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             client(client)
             addConverterFactory(GsonConverterFactory.create(buildGson()))
         }

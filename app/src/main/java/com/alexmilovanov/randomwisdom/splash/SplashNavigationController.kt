@@ -3,6 +3,7 @@ package com.alexmilovanov.randomwisdom.splash
 import android.content.Intent
 import com.alexmilovanov.randomwisdom.R
 import com.alexmilovanov.randomwisdom.main.MainActivity
+import com.alexmilovanov.randomwisdom.util.log
 import com.alexmilovanov.randomwisdom.util.replaceFragmentInActivity
 import com.alexmilovanov.randomwisdom.util.startNewActivity
 import javax.inject.Inject
@@ -16,6 +17,7 @@ class SplashNavigationController
     private val containerId = R.id.fl_content
 
     override fun navigateToSplashScreen() {
+        log("navigateToSplashScreen")
         activity.replaceFragmentInActivity(
                 SplashFragment(),
                 containerId

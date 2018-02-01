@@ -22,8 +22,4 @@ class SplashActivity : BaseActivity() {
         savedInstanceState ?: navigator.navigateToSplashScreen()
     }
 
-    override fun subscribeToNavigationChanges() {
-
-    }
-
 }

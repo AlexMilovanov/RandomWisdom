@@ -28,7 +28,7 @@ task clean(type: Delete) {
 // Define versions in a single place
 ext {
     // App dependencies
-    architectureLifecycleVersion = '1.0.3'
+    architectureLifecycleVersion = '1.1.0'
     architectureComponentsVersion = '1.0.0'
     supportLibraryVersion = '27.0.2'
     constraintLayoutVersion = '1.1.0-beta4'
@@ -39,6 +39,7 @@ ext {
     rxJava2Version='2.1.7'
     rxAndroidVersion='2.0.1'
     rxKotlinVersion='2.2.0'
+    rxBindingsVersion='2.1.0'
     timberVersion='4.5.1'
     coroutines_version='0.20'
 }

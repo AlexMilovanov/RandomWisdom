@@ -1,6 +1,5 @@
 package com.alexmilovanov.randomwisdom.randomquote
 
-import com.alexmilovanov.randomwisdom.mvibase.MviViewModel
 import com.alexmilovanov.randomwisdom.mvibase.MviIntent
 import com.alexmilovanov.randomwisdom.mvibase.MviAction
 import com.alexmilovanov.randomwisdom.mvibase.MviViewState
@@ -13,7 +12,6 @@ import com.alexmilovanov.randomwisdom.view.BaseViewModel
 import io.reactivex.Observable
 import io.reactivex.ObservableTransformer
 import io.reactivex.functions.BiFunction
-import io.reactivex.subjects.PublishSubject
 import javax.inject.Inject
 
 /**
@@ -23,15 +21,7 @@ import javax.inject.Inject
  */
 class RandomQuoteViewModel
 @Inject constructor(private val actionProcessorHolder: RandomQuoteActionProcessorHolder)
-    : BaseViewModel(), MviViewModel<RandomQuoteIntent, RandomQuoteViewState> {
-
-    /**
-     * Proxy subject used to keep the stream alive even after the UI gets recycled.
-     * This is basically used to keep ongoing events and the last cached State alive
-     * while the UI disconnects and reconnects on config changes.
-     */
-    private val intentsSubject: PublishSubject<RandomQuoteIntent> = PublishSubject.create()
-    private val statesObservable: Observable<RandomQuoteViewState> = compose()
+    : BaseViewModel<RandomQuoteIntent, RandomQuoteViewState>() {
 
     /**
      * take only the first ever InitialIntent and all intents of other types
@@ -47,17 +37,10 @@ class RandomQuoteViewModel
             }
         }
 
-
-    override fun processIntents(intents: Observable<RandomQuoteIntent>) {
-        intents.subscribe(intentsSubject)
-    }
-
-    override fun states() = statesObservable
-
     /**
      * Compose all components to create the stream logic
      */
-    private fun compose(): Observable<RandomQuoteViewState> {
+    override fun compose(): Observable<RandomQuoteViewState> {
         return intentsSubject
                 .compose<RandomQuoteIntent>(intentFilter)
                 .map{ intent -> actionFromIntent (intent) }
@@ -81,8 +64,9 @@ class RandomQuoteViewModel
      */
     private fun actionFromIntent(intent: RandomQuoteIntent): RandomQuoteAction {
         return when (intent) {
-            is RandomQuoteIntent.InitialIntent -> RandomQuoteAction.RequestNextQuoteAction
-            is RandomQuoteIntent.NextQuoteIntent -> RandomQuoteAction.RequestNextQuoteAction
+            RandomQuoteIntent.InitialIntent,
+            RandomQuoteIntent.NextQuoteIntent ->
+                RandomQuoteAction.RequestNextQuoteAction
         }
     }
 

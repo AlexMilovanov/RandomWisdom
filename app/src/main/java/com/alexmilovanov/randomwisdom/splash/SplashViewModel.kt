@@ -7,7 +7,6 @@ import com.alexmilovanov.randomwisdom.view.BaseViewModel
 import io.reactivex.Observable
 import io.reactivex.ObservableTransformer
 import io.reactivex.functions.BiFunction
-import io.reactivex.subjects.PublishSubject
 import javax.inject.Inject
 
 /**
@@ -17,15 +16,7 @@ import javax.inject.Inject
  */
 class SplashViewModel
 @Inject constructor(private val actionProcessorHolder: AppLaunchActionProcessorHolder)
-    : BaseViewModel(), MviViewModel<AppLaunchIntent, SplashViewState> {
-
-    /**
-     * Proxy subject used to keep the stream alive even after the UI gets recycled.
-     * This is basically used to keep ongoing events and the last cached State alive
-     * while the UI disconnects and reconnects on config changes.
-     */
-    private val intentsSubject: PublishSubject<AppLaunchIntent> = PublishSubject.create()
-    private val statesObservable: Observable<SplashViewState> = compose()
+    : BaseViewModel<AppLaunchIntent, SplashViewState>() {
 
     /**
      * take only the first ever InitialIntent and all intents of other types
@@ -45,17 +36,15 @@ class SplashViewModel
         intents.subscribe(intentsSubject)
     }
 
-    override fun states() = statesObservable
-
     /**
      * Compose all components to create the stream logic
      */
-    private fun compose(): Observable<SplashViewState> {
+    override fun compose(): Observable<SplashViewState> {
         return intentsSubject
                 // Apply intent filter
-                .compose<AppLaunchIntent>(intentFilter)
-                .map{intent -> actionFromIntent (intent)}
-                .compose<AppLaunchResult>(actionProcessorHolder.initialQuotesProcessor)
+                .compose(intentFilter)
+                .map{ intent -> actionFromIntent (intent) }
+                .compose(actionProcessorHolder.initialQuotesProcessor)
                 // Cache each state and pass it to the reducer to create a new state from
                 // the previous cached one and the latest Result emitted from the action processor.
                 // The Scan operator is used here for the caching.
@@ -91,21 +80,27 @@ class SplashViewModel
         private val reducer = BiFunction { previousState: SplashViewState, result: AppLaunchResult ->
             when (result) {
                 is InitialQuotesResult -> when (result) {
-                    InitialQuotesResult.Success -> previousState.copy(
-                            dataAvailable = true,
-                            loading = false,
-                            error = null
-                    )
-                    InitialQuotesResult.InFlight -> previousState.copy(
-                            false,
-                            loading = true,
-                            error = null
-                    )
-                    is InitialQuotesResult.Failure -> previousState.copy(
-                            dataAvailable = false,
-                            loading = false,
-                            error = result.error
-                    )
+                    InitialQuotesResult.Success -> {
+                        previousState.copy(
+                                dataAvailable = true,
+                                loading = false,
+                                error = null
+                        )
+                    }
+                    InitialQuotesResult.InFlight -> {
+                        previousState.copy(
+                                dataAvailable = false,
+                                loading = true,
+                                error = null
+                        )
+                    }
+                    is InitialQuotesResult.Failure -> {
+                        previousState.copy(
+                                dataAvailable = false,
+                                loading = false,
+                                error = result.error
+                        )
+                    }
                 }
             }
         }

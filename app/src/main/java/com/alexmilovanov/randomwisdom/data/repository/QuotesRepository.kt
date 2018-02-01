@@ -16,7 +16,7 @@ class QuotesRepository
 constructor(private val apiService: ApiService) : IQuotesRepository {
 
     // Cached quotes serving as data local source
-    private val cachedQuotes: Queue<Quote> = PriorityQueue()
+    private val cachedQuotes: Queue<Quote> = ArrayDeque()
 
     /**
      * Ensure cached quotes are available before the first quote is requested
@@ -47,13 +47,12 @@ constructor(private val apiService: ApiService) : IQuotesRepository {
      * Retrieve another portion of quotes from the remote source and cache it locally
      */
     private fun refreshQuotes(): Completable {
-         apiService.getCachedQuotes()
+         return apiService.getCachedQuotes()
                 .toObservable()
                 .flatMap { respQuotes -> Observable.fromIterable(respQuotes) }
                 .map { respQuote -> Quote(respQuote.quote, respQuote.author) }
                 .doOnNext { quote -> cachedQuotes.add(quote) }
-
-        return Completable.complete()
+                .ignoreElements()
     }
 
     /**

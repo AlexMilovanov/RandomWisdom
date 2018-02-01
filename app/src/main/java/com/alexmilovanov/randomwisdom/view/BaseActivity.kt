@@ -8,16 +8,9 @@ import dagger.android.support.DaggerAppCompatActivity
  */
 abstract class BaseActivity : DaggerAppCompatActivity() {
 
-    override fun onStart() {
-        super.onStart()
-        subscribeToNavigationChanges()
-    }
-
     override fun onBackPressed() {
         super.onBackPressed()
         overridePendingTransitionExit()
     }
-
-    abstract fun subscribeToNavigationChanges()
 
 }

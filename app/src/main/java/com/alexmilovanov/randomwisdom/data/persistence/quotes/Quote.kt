@@ -9,13 +9,14 @@ import android.arch.persistence.room.PrimaryKey
  * For each entity, a database table is created to hold the items.
  */
 @Entity(tableName = "favorites")
-data class Quote(
+data class Quote (
         @ColumnInfo(name = "quote")
         var quote: String,
 
         @ColumnInfo(name = "author")
         var author: String
 ) {
+
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     var id: Long = 0
