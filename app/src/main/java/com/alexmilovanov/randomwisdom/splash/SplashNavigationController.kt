@@ -17,7 +17,6 @@ class SplashNavigationController
     private val containerId = R.id.fl_content
 
     override fun navigateToSplashScreen() {
-        log("navigateToSplashScreen")
         activity.replaceFragmentInActivity(
                 SplashFragment(),
                 containerId

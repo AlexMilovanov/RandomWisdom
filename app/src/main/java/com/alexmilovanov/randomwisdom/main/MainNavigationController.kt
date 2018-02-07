@@ -4,6 +4,9 @@ import com.alexmilovanov.randomwisdom.R
 import com.alexmilovanov.randomwisdom.randomquote.RandomQuoteFragment
 import com.alexmilovanov.randomwisdom.util.replaceFragmentInActivity
 import javax.inject.Inject
+import android.support.v4.app.ShareCompat
+import com.alexmilovanov.randomwisdom.util.startNewActivity
+
 
 /**
  * A utility class that handles navigation in MainActivity.
@@ -18,6 +21,16 @@ class MainNavigationController
                 RandomQuoteFragment(),
                 containerId
         )
+    }
+
+    override fun shareText(text: String) {
+        val sharingIntent = ShareCompat.IntentBuilder.from(activity)
+                .setType("text/plain")
+                .setText(text)
+                .intent
+        if (sharingIntent.resolveActivity(activity.packageManager) != null) {
+            activity.startNewActivity(sharingIntent)
+        }
     }
 
 }

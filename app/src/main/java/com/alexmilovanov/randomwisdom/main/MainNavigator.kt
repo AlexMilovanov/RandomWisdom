@@ -6,5 +6,5 @@ package com.alexmilovanov.randomwisdom.main
 interface MainNavigator {
 
     fun navigateToRandomQuotes()
-
+    fun shareText(text: String)
 }

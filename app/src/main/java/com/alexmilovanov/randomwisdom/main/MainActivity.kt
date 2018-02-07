@@ -2,7 +2,7 @@ package com.alexmilovanov.randomwisdom.main
 
 import android.os.Bundle
 import com.alexmilovanov.randomwisdom.R
-import com.alexmilovanov.randomwisdom.view.BaseActivity
+import com.alexmilovanov.randomwisdom.mvibase.BaseActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 

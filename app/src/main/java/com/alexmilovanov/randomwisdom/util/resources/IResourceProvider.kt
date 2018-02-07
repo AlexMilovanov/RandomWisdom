@@ -1,6 +1,8 @@
 package com.alexmilovanov.randomwisdom.util.resources
 
+import android.graphics.drawable.Drawable
 import android.support.annotation.ColorRes
+import android.support.annotation.DrawableRes
 import android.support.annotation.IntegerRes
 import android.support.annotation.StringRes
 
@@ -14,4 +16,6 @@ interface IResourceProvider {
     fun getInteger(@IntegerRes integerResId: Int): Int
 
     fun getColor(@ColorRes colorResId: Int): Int
+
+    fun getDrawable(@DrawableRes drawableResId: Int): Drawable
 }

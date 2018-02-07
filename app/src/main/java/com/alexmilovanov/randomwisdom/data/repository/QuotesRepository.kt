@@ -1,63 +1,110 @@
 package com.alexmilovanov.randomwisdom.data.repository
 
 import com.alexmilovanov.randomwisdom.data.network.ApiService
+import com.alexmilovanov.randomwisdom.data.persistence.quotes.FavoritesDao
 import com.alexmilovanov.randomwisdom.data.persistence.quotes.Quote
+import com.alexmilovanov.randomwisdom.util.log
 import io.reactivex.Completable
+import io.reactivex.Maybe
 import io.reactivex.Observable
 import io.reactivex.Single
 import java.util.*
 import javax.inject.Inject
+import kotlin.NoSuchElementException
 
 /**
  * Single source of truth for quotes related data
  */
 class QuotesRepository
 @Inject
-constructor(private val apiService: ApiService) : IQuotesRepository {
+constructor(private val apiService: ApiService, private val favDao: FavoritesDao) : IQuotesRepository {
 
-    // Cached quotes serving as data local source
+    // Cached quotes serving as local data source
     private val cachedQuotes: Queue<Quote> = ArrayDeque()
 
     /**
      * Ensure cached quotes are available before the first quote is requested
      */
     override fun loadInitialQuotes(): Completable {
-        if(cachedQuotes.isEmpty()) {
-           return refreshQuotes()
+        if (cachedQuotes.isEmpty()) {
+            return refreshQuotes().toCompletable()
         }
         return Completable.complete()
     }
 
     /**
-     * Gets first quote from the cached queue if not empty. Request quotes refresh otherwise.
+     * Gets the first quote from the cached queue if not empty. Request quotes refresh otherwise.
      */
     override fun getRandomQuote(): Single<Quote> {
+        return getNextQuote()
+                .switchIfEmpty(Maybe.just(Quote()))
+                .toSingle()
+                .flatMap { q ->
+                    if (q.quote.isEmpty()) {
+                        refreshQuotes()
+                                .flatMap { _ ->
+                                    getNextQuote()
+                                            .defaultIfEmpty(Quote())
+                                            .toSingle()
+                                }
+                    } else {
+                        Single.just(q)
+                    }
+                }
+    }
 
-        var quote = getNextQuote()
+    /**
+     * Add quote to favorites if it hasn't been added before. Remove from favorites otherwise.
+     */
+    override fun addOrRemoveFromFavorites(quote: Quote): Single<Boolean> {
+        return favDao.hasQuote(quote.id)
+                .switchIfEmpty(Maybe.just(Quote()))
+                .toSingle()
+                .flatMap { q ->
+                    if (q.quote.isEmpty()) {
+                        favDao.addToFavorites(quote)
+                        Single.just(true)
+                    } else {
+                        favDao.deleteFromFavorites(quote.id)
+                        Single.just(false)
+                    }
+                }
+    }
 
-        if(quote == null) {
-            refreshQuotes()
-               .andThen { quote = getNextQuote() }
-        }
-
-        return Single.just(quote)
+    /**
+     * Provide quote text to be shared
+     */
+    override fun getShareQuoteText(quote: Quote): Single<String> {
+        return Single.just("\""+quote.quote+"\" —"+quote.author)
     }
 
     /**
      * Retrieve another portion of quotes from the remote source and cache it locally
      */
-    private fun refreshQuotes(): Completable {
-         return apiService.getCachedQuotes()
+    private fun refreshQuotes(): Single<List<Quote>> {
+        log("getCachedQuotes()")
+        return apiService.getCachedQuotes()
+                .doAfterSuccess { log("API success") }
                 .toObservable()
                 .flatMap { respQuotes -> Observable.fromIterable(respQuotes) }
-                .map { respQuote -> Quote(respQuote.quote, respQuote.author) }
+                .map { respQuote -> Quote(quote = respQuote.quote, author = respQuote.author) }
                 .doOnNext { quote -> cachedQuotes.add(quote) }
-                .ignoreElements()
+                .doOnComplete { log("done refreshing!") }
+                .toList()
     }
 
     /**
-     * Removes and returns the head of the queue. Returns null if queue is empty.
+     * Removes and returns the head of the queue. Returns empty value if queue is empty.
      */
-    private fun getNextQuote() = cachedQuotes.poll()
+    private fun getNextQuote(): Maybe<Quote> {
+        return try {
+            log("getNextQuote()")
+            Maybe.just(cachedQuotes.remove())
+        } catch (e: NoSuchElementException) {
+            log("Empty!")
+            Maybe.empty()
+        }
+    }
+
 
 }

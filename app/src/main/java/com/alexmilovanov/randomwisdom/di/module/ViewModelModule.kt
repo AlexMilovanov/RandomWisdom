@@ -4,7 +4,7 @@ import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import com.alexmilovanov.randomwisdom.randomquote.RandomQuoteViewModel
 import com.alexmilovanov.randomwisdom.splash.SplashViewModel
-import com.alexmilovanov.randomwisdom.view.ViewModelFactory
+import com.alexmilovanov.randomwisdom.mvibase.ViewModelFactory
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap

@@ -8,7 +8,7 @@ import io.reactivex.Observable
  * b) subscribes to a view model for rendering its UI.
  *
  * @param I Top class of the [MviIntent] that the [MviView] will be emitting.
- * @param S Top class of the [MviViewState] the [MviView] will be subscribing to.
+ * @param VS Top class of the [MviViewState] the [MviView] will be subscribing to.
  */
 interface MviView <I : MviIntent, in VS : MviViewState> {
     /**
@@ -22,4 +22,9 @@ interface MviView <I : MviIntent, in VS : MviViewState> {
      * Entry point for the [MviView] to render itself based on a [MviViewState].
      */
     fun render(state: VS)
+
+    /**
+     * Subscribe to the relevant navigation events invoked by a ViewModel
+     */
+    fun subscribeToNavigationChanges()
 }

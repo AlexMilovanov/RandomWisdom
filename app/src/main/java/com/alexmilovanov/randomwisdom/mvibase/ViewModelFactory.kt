@@ -1,4 +1,4 @@
-package com.alexmilovanov.randomwisdom.view
+package com.alexmilovanov.randomwisdom.mvibase
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider

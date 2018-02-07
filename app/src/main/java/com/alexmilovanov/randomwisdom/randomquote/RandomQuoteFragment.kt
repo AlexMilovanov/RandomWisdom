@@ -1,5 +1,6 @@
 package com.alexmilovanov.randomwisdom.randomquote
 
+import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
@@ -7,12 +8,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.alexmilovanov.randomwisdom.R
-import com.alexmilovanov.randomwisdom.view.BaseFragment
+import com.alexmilovanov.randomwisdom.databinding.FragmentRandomQuoteBinding
+import com.alexmilovanov.randomwisdom.main.MainNavigator
+import com.alexmilovanov.randomwisdom.mvibase.BaseFragment
 import com.alexmilovanov.randomwisdom.mvibase.*
+import com.alexmilovanov.randomwisdom.util.binding.AutoClearedValue
+import com.alexmilovanov.randomwisdom.util.resources.ResourceProvider
 import com.jakewharton.rxbinding2.view.RxView
 import io.reactivex.Observable
 import kotlinx.android.synthetic.main.fragment_random_quote.*
-import kotlinx.android.synthetic.main.fragment_splash.*
 import javax.inject.Inject
 
 
@@ -24,30 +28,53 @@ class RandomQuoteFragment : BaseFragment<RandomQuoteViewModel, RandomQuoteIntent
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
+    @Inject
+    lateinit var resProvider: ResourceProvider
+
+    @Inject
+    lateinit var navigator: MainNavigator
+
+    private lateinit var binding: AutoClearedValue<FragmentRandomQuoteBinding>
+
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_random_quote, container, false)
+        val dataBinding = FragmentRandomQuoteBinding.inflate(inflater, container, false)
+        binding = AutoClearedValue(this, dataBinding)
+
+        return dataBinding.root
     }
 
     override fun initViewModel() =
             ViewModelProviders.of(this, viewModelFactory).get(RandomQuoteViewModel::class.java)
 
     override fun intents(): Observable<RandomQuoteIntent> =
-            Observable.merge(initialIntent(), nextQuoteIntent())
+            Observable.merge(initialIntent(), nextQuoteIntent(), likeQuoteIntent(), shareQuoteIntent())
 
     override fun render(state: RandomQuoteViewState) {
         if (state.loading) tv_quote.text = "Loading"
-        if (state.error != null) {
-            tv_quote.text = state.error.localizedMessage
-        }
-        if (!state.author.isEmpty()) {
-            tv_author.text = state.author
-        }
-        if(!state.quoteText.isEmpty()) {
-            tv_quote.text = state.quoteText
+
+        state.error?.let { tv_quote.text = state.error.localizedMessage }
+
+        state.quote?.let { binding.value?.quote = state.quote }
+
+        ib_like.setImageDrawable(
+                resProvider.getDrawable(
+                        if (state.isFavorite) R.drawable.ic_favorite else R.drawable.ic_favorite_border)
+        )
+    }
+
+    override fun subscribeToNavigationChanges() {
+        val fragment = this@RandomQuoteFragment
+        viewModel.run {
+            shareCommand.observe(fragment,
+                    Observer {text ->
+                        text?.let {
+                            navigator.shareText(text)
+                        }
+                    })
         }
     }
 
@@ -67,6 +94,24 @@ class RandomQuoteFragment : BaseFragment<RandomQuoteViewModel, RandomQuoteIntent
     private fun nextQuoteIntent(): Observable<RandomQuoteIntent.NextQuoteIntent> =
             RxView.clicks(btn_next).map {
                 RandomQuoteIntent.NextQuoteIntent
+            }
+
+    /**
+     * The Intent the [MviView] emit to convey to the [MviViewModel]
+     * to add or remove quote from Favorites.
+     */
+    private fun likeQuoteIntent(): Observable<RandomQuoteIntent> =
+            RxView.clicks(ib_like).map {
+                RandomQuoteIntent.LikeCurrentQuoteIntent(binding.value?.quote!!)
+            }
+
+    /**
+     * The Intent the [MviView] emit to convey to the [MviViewModel]
+     * to share selected quote.
+     */
+    private fun shareQuoteIntent(): Observable<RandomQuoteIntent> =
+            RxView.clicks(ib_share).map {
+                RandomQuoteIntent.ShareCurrentQuoteIntent(binding.value?.quote!!)
             }
 
 }

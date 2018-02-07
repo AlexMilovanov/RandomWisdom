@@ -13,4 +13,17 @@ sealed class RandomQuoteResult : MviResult {
         data class Failure(val error: Throwable) : RequestNextQuoteResult()
         object InFlight : RequestNextQuoteResult()
     }
+
+    sealed class LikeQuoteResult : RandomQuoteResult() {
+        data class Success(val isFavorite: Boolean) : LikeQuoteResult()
+        data class Failure(val error: Throwable) : LikeQuoteResult()
+        object InFlight : LikeQuoteResult()
+    }
+
+    sealed class ShareQuoteResult : RandomQuoteResult() {
+        data class Success(val text: String) : ShareQuoteResult()
+        data class Failure(val error: Throwable) : ShareQuoteResult()
+        object InFlight : ShareQuoteResult()
+    }
+
 }

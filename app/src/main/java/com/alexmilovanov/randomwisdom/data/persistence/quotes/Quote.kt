@@ -3,6 +3,7 @@ package com.alexmilovanov.randomwisdom.data.persistence.quotes
 import android.arch.persistence.room.ColumnInfo
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey
+import java.util.*
 
 /**
  * Represents a product data class that holds a database row.
@@ -10,14 +11,16 @@ import android.arch.persistence.room.PrimaryKey
  */
 @Entity(tableName = "favorites")
 data class Quote (
+        @PrimaryKey(autoGenerate = false)
+        @ColumnInfo(name = "id")
+        var id: String = UUID.randomUUID().toString(),
+
         @ColumnInfo(name = "quote")
-        var quote: String,
+        var quote: String = "",
 
         @ColumnInfo(name = "author")
-        var author: String
-) {
+        var author: String = "",
 
-    @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "id")
-    var id: Long = 0
-}
+        @ColumnInfo(name = "timestamp")
+        var timestamp: Long = System.currentTimeMillis()
+)

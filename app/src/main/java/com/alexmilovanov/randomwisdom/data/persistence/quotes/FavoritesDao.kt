@@ -15,11 +15,14 @@ abstract class FavoritesDao {
     @Query("SELECT * FROM favorites ORDER BY id")
     abstract fun loadFavoriteQuotes(): Maybe<List<Quote>>
 
+    @Query("SELECT * FROM favorites WHERE id LIKE :id LIMIT 1")
+    abstract fun hasQuote(id: String): Maybe<Quote>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract fun addToFavorites(quote: Quote)
 
-    @Query("DELETE FROM favorites WHERE favorites.id = :id")
-    abstract fun deleteFromFavorites(id: Long)
+    @Query("DELETE FROM favorites WHERE id LIKE :id")
+    abstract fun deleteFromFavorites(id: String)
 
     @Query("DELETE FROM favorites")
     abstract fun clearAll()

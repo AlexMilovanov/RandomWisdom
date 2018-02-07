@@ -3,7 +3,8 @@ package com.alexmilovanov.randomwisdom.splash
 import com.alexmilovanov.randomwisdom.mvibase.*
 import com.alexmilovanov.randomwisdom.splash.AppLaunchResult.InitialQuotesResult
 import com.alexmilovanov.randomwisdom.util.notOfType
-import com.alexmilovanov.randomwisdom.view.BaseViewModel
+import com.alexmilovanov.randomwisdom.mvibase.BaseViewModel
+import com.alexmilovanov.randomwisdom.util.binding.SingleLiveEvent
 import io.reactivex.Observable
 import io.reactivex.ObservableTransformer
 import io.reactivex.functions.BiFunction
@@ -17,6 +18,9 @@ import javax.inject.Inject
 class SplashViewModel
 @Inject constructor(private val actionProcessorHolder: AppLaunchActionProcessorHolder)
     : BaseViewModel<AppLaunchIntent, SplashViewState>() {
+
+    // Command called for the View to void main screen
+    val startCommand = SingleLiveEvent<Void>()
 
     /**
      * take only the first ever InitialIntent and all intents of other types
@@ -43,12 +47,12 @@ class SplashViewModel
         return intentsSubject
                 // Apply intent filter
                 .compose(intentFilter)
-                .map{ intent -> actionFromIntent (intent) }
+                .map { intent -> actionFromIntent(intent) }
                 .compose(actionProcessorHolder.initialQuotesProcessor)
                 // Cache each state and pass it to the reducer to create a new state from
                 // the previous cached one and the latest Result emitted from the action processor.
                 // The Scan operator is used here for the caching.
-                .scan(SplashViewState.idle(), SplashViewModel.reducer)
+                .scan(SplashViewState.idle(), reducer)
                 // Emit the last one event of the stream on subscription
                 // Useful when a View rebinds to the ViewModel after rotation.
                 .replay(1)
@@ -68,39 +72,37 @@ class SplashViewModel
         }
     }
 
-    companion object {
-
-        /**
-         * The Reducer is where [MviViewState], that the [MviView] will use to
-         * render itself, are created.
-         * It takes the last cached [MviViewState], the latest [MviResult] and
-         * creates a new [MviViewState] by only updating the related fields.
-         * This is basically like a big switch statement of all possible types for the [MviResult]
-         */
-        private val reducer = BiFunction { previousState: SplashViewState, result: AppLaunchResult ->
-            when (result) {
-                is InitialQuotesResult -> when (result) {
-                    InitialQuotesResult.Success -> {
-                        previousState.copy(
-                                dataAvailable = true,
-                                loading = false,
-                                error = null
-                        )
-                    }
-                    InitialQuotesResult.InFlight -> {
-                        previousState.copy(
-                                dataAvailable = false,
-                                loading = true,
-                                error = null
-                        )
-                    }
-                    is InitialQuotesResult.Failure -> {
-                        previousState.copy(
-                                dataAvailable = false,
-                                loading = false,
-                                error = result.error
-                        )
-                    }
+    /**
+     * The Reducer is where [MviViewState], that the [MviView] will use to
+     * render itself, are created.
+     * It takes the last cached [MviViewState], the latest [MviResult] and
+     * creates a new [MviViewState] by only updating the related fields.
+     * This is basically like a big switch statement of all possible types for the [MviResult]
+     */
+    private val reducer = BiFunction { previousState: SplashViewState, result: AppLaunchResult ->
+        when (result) {
+            is InitialQuotesResult -> when (result) {
+                InitialQuotesResult.Success -> {
+                    startCommand.call()
+                    previousState.copy(
+                            dataAvailable = true,
+                            loading = false,
+                            error = null
+                    )
+                }
+                InitialQuotesResult.InFlight -> {
+                    previousState.copy(
+                            dataAvailable = false,
+                            loading = true,
+                            error = null
+                    )
+                }
+                is InitialQuotesResult.Failure -> {
+                    previousState.copy(
+                            dataAvailable = false,
+                            loading = false,
+                            error = result.error
+                    )
                 }
             }
         }

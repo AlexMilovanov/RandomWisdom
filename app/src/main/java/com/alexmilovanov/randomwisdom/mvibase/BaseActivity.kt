@@ -1,4 +1,4 @@
-package com.alexmilovanov.randomwisdom.view
+package com.alexmilovanov.randomwisdom.mvibase
 
 import com.alexmilovanov.randomwisdom.util.overridePendingTransitionExit
 import dagger.android.support.DaggerAppCompatActivity

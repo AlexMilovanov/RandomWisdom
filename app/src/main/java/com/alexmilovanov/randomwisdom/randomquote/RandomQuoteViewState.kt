@@ -1,13 +1,14 @@
 package com.alexmilovanov.randomwisdom.randomquote
 
+import com.alexmilovanov.randomwisdom.data.persistence.quotes.Quote
 import com.alexmilovanov.randomwisdom.mvibase.MviViewState
 
 /**
  * Represents possible random quote screen view states
  */
 data class RandomQuoteViewState (
-        val quoteText: String,
-        val author: String,
+        val quote: Quote?,
+        val isFavorite: Boolean,
         val loading: Boolean,
         val error: Throwable?
 ) : MviViewState {
@@ -15,8 +16,8 @@ data class RandomQuoteViewState (
     companion object {
         fun idle() : RandomQuoteViewState {
             return RandomQuoteViewState (
-                    "",
-                    "",
+                    null,
+                    false,
                     false,
                     null
             )

@@ -1,5 +1,6 @@
 package com.alexmilovanov.randomwisdom.splash
 
+import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
@@ -8,7 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.alexmilovanov.randomwisdom.R
 import com.alexmilovanov.randomwisdom.mvibase.*
-import com.alexmilovanov.randomwisdom.view.BaseFragment
+import com.alexmilovanov.randomwisdom.mvibase.BaseFragment
 import io.reactivex.Observable
 import kotlinx.android.synthetic.main.fragment_splash.*
 import javax.inject.Inject
@@ -42,8 +43,15 @@ class SplashFragment : BaseFragment<SplashViewModel, AppLaunchIntent, SplashView
         if (state.error != null) {
             tv_logo.text = state.error.localizedMessage
         }
-        if (state.dataAvailable) {
-            navigator.navigateToQuotes()
+    }
+
+    override fun subscribeToNavigationChanges() {
+        val fragment = this@SplashFragment
+        viewModel.run {
+            startCommand.observe(fragment,
+                    Observer {
+                        navigator.navigateToQuotes()
+                    })
         }
     }
 

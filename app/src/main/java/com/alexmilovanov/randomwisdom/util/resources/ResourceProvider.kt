@@ -1,6 +1,7 @@
 package com.alexmilovanov.randomwisdom.util.resources
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.support.annotation.ColorRes
 import android.support.annotation.IntegerRes
 import android.support.annotation.StringRes
@@ -13,6 +14,8 @@ import javax.inject.Inject
 class ResourceProvider
 @Inject
 constructor(@ApplicationContext private val ctx: Context) : IResourceProvider {
+
+    override fun getDrawable(drawableResId: Int): Drawable = ctx.resources.getDrawable(drawableResId, null)
 
     override fun getString(@StringRes stringResId: Int): String = ctx.resources.getString(stringResId)
 

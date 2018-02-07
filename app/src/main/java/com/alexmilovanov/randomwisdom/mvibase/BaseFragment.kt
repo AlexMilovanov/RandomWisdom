@@ -1,11 +1,7 @@
-package com.alexmilovanov.randomwisdom.view
+package com.alexmilovanov.randomwisdom.mvibase
 
 import android.os.Bundle
 import android.view.View
-import com.alexmilovanov.randomwisdom.mvibase.MviIntent
-import com.alexmilovanov.randomwisdom.mvibase.MviView
-import com.alexmilovanov.randomwisdom.mvibase.MviViewModel
-import com.alexmilovanov.randomwisdom.mvibase.MviViewState
 import dagger.android.support.DaggerFragment
 import io.reactivex.disposables.CompositeDisposable
 
@@ -17,11 +13,16 @@ abstract class BaseFragment <VM : BaseViewModel<I, VS>, I: MviIntent, VS: MviVie
 
     protected var mDisposables = CompositeDisposable()
 
-    lateinit var mViewModel: VM
+    lateinit var viewModel: VM
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         bind()
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        subscribeToNavigationChanges()
     }
 
     override fun onDestroy() {
@@ -36,11 +37,11 @@ abstract class BaseFragment <VM : BaseViewModel<I, VS>, I: MviIntent, VS: MviVie
      * emitted [MviViewState]s could be lost
      */
     private fun bind() {
-        mViewModel = initViewModel()
+        viewModel = initViewModel()
         // Subscribe to the ViewModel and call render for every emitted state
-        mDisposables.add(mViewModel.states().subscribe{state -> render(state)})
+        mDisposables.add(viewModel.states().subscribe{ state -> render(state)})
         // Pass the UI's intents to the ViewModel
-        mViewModel.processIntents(intents())
+        viewModel.processIntents(intents())
     }
 
     /**

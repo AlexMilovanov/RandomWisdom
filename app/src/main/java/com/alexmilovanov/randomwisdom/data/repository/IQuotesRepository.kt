@@ -11,4 +11,6 @@ interface IQuotesRepository {
 
     fun loadInitialQuotes(): Completable
     fun getRandomQuote(): Single<Quote>
+    fun addOrRemoveFromFavorites(quote: Quote): Single<Boolean>
+    fun getShareQuoteText(quote: Quote): Single<String>
 }

@@ -1,5 +1,6 @@
 package com.alexmilovanov.randomwisdom.randomquote
 
+import com.alexmilovanov.randomwisdom.data.persistence.quotes.Quote
 import com.alexmilovanov.randomwisdom.mvibase.MviAction
 
 /**
@@ -8,4 +9,6 @@ import com.alexmilovanov.randomwisdom.mvibase.MviAction
 sealed class RandomQuoteAction : MviAction {
 
     object RequestNextQuoteAction : RandomQuoteAction()
+    data class LikeQuoteAction (val quote: Quote) : RandomQuoteAction()
+    data class ShareQuoteAction (val quote: Quote) : RandomQuoteAction()
 }
