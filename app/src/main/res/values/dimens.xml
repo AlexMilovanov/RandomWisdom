@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <dimen name="padding_minimal">1dp</dimen>
+    <dimen name="padding_nano">2dp</dimen>
+    <dimen name="padding_micro">4dp</dimen>
+    <dimen name="padding_small">8dp</dimen>
+    <dimen name="padding_medium">12dp</dimen>
+    <dimen name="padding_standard">16dp</dimen>
+    <dimen name="padding_enlarged">24dp</dimen>
+    <dimen name="padding_large">32dp</dimen>
+    <dimen name="padding_xlarge">48dp</dimen>
+
+    <dimen name="splash_title_width">280dp</dimen>
+    <dimen name="splash_logo_size">164dp</dimen>
+
     <dimen name="action_icon_size">32dp</dimen>
     <dimen name="quote_text_size">24sp</dimen>
     <dimen name="author_text_size">18sp</dimen>

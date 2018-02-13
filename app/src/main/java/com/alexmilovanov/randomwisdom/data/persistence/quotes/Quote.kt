@@ -22,5 +22,5 @@ data class Quote (
         var author: String = "",
 
         @ColumnInfo(name = "timestamp")
-        var timestamp: Long = System.currentTimeMillis()
+        var timestamp: Long = 0
 )

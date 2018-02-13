@@ -1,4 +1,4 @@
-package com.alexmilovanov.randomwisdom.util.binding
+package com.alexmilovanov.randomwisdom.uicommon
 
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
@@ -18,7 +18,7 @@ class AutoClearedValue<T>(fragment: Fragment, var value: T?) {
                             fragManager.unregisterFragmentLifecycleCallbacks(this)
                         }
                     }
-                }, false);
+                }, false)
     }
 
 }

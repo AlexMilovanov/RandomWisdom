@@ -2,10 +2,11 @@ package com.alexmilovanov.randomwisdom.main
 
 import com.alexmilovanov.randomwisdom.R
 import com.alexmilovanov.randomwisdom.randomquote.RandomQuoteFragment
-import com.alexmilovanov.randomwisdom.util.replaceFragmentInActivity
+import com.alexmilovanov.randomwisdom.util.ext.replaceFragmentInActivity
 import javax.inject.Inject
 import android.support.v4.app.ShareCompat
-import com.alexmilovanov.randomwisdom.util.startNewActivity
+import com.alexmilovanov.randomwisdom.favorites.FavoriteQuotesFragment
+import com.alexmilovanov.randomwisdom.util.ext.startNewActivity
 
 
 /**
@@ -19,6 +20,13 @@ class MainNavigationController
     override fun navigateToRandomQuotes() {
         activity.replaceFragmentInActivity(
                 RandomQuoteFragment(),
+                containerId
+        )
+    }
+
+    override fun navigateToFavorites() {
+        activity.replaceFragmentInActivity(
+                FavoriteQuotesFragment(),
                 containerId
         )
     }

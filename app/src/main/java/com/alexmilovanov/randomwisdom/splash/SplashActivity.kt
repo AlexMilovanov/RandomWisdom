@@ -2,7 +2,7 @@ package com.alexmilovanov.randomwisdom.splash
 
 import android.os.Bundle
 import com.alexmilovanov.randomwisdom.R
-import com.alexmilovanov.randomwisdom.mvibase.BaseActivity
+import com.alexmilovanov.randomwisdom.uicommon.BaseActivity
 import javax.inject.Inject
 
 

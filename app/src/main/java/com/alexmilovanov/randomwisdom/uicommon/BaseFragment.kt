@@ -1,7 +1,8 @@
-package com.alexmilovanov.randomwisdom.mvibase
+package com.alexmilovanov.randomwisdom.uicommon
 
 import android.os.Bundle
 import android.view.View
+import com.alexmilovanov.randomwisdom.mvibase.*
 import dagger.android.support.DaggerFragment
 import io.reactivex.disposables.CompositeDisposable
 

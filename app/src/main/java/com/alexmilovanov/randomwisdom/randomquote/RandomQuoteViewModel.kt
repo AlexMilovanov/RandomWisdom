@@ -9,9 +9,9 @@ import com.alexmilovanov.randomwisdom.randomquote.RandomQuoteResult.RequestNextQ
 import com.alexmilovanov.randomwisdom.randomquote.RandomQuoteResult.LikeQuoteResult
 import com.alexmilovanov.randomwisdom.randomquote.RandomQuoteResult.ShareQuoteResult
 import com.alexmilovanov.randomwisdom.randomquote.RandomQuoteIntent.InitialIntent
-import com.alexmilovanov.randomwisdom.util.notOfType
-import com.alexmilovanov.randomwisdom.mvibase.BaseViewModel
-import com.alexmilovanov.randomwisdom.util.binding.SingleLiveEvent
+import com.alexmilovanov.randomwisdom.util.ext.notOfType
+import com.alexmilovanov.randomwisdom.uicommon.BaseViewModel
+import com.alexmilovanov.randomwisdom.uicommon.SingleLiveEvent
 import io.reactivex.Observable
 import io.reactivex.ObservableTransformer
 import io.reactivex.functions.BiFunction
@@ -80,54 +80,51 @@ class RandomQuoteViewModel
         }
     }
 
-    //companion object {
 
-
-
-        /**
-         * The Reducer is where [MviViewState], that the [MviView] will use to
-         * render itself, are created.
-         * It takes the last cached [MviViewState], the latest [MviResult] and
-         * creates a new [MviViewState] by only updating the related fields.
-         * This is basically like a big switch statement of all possible types for the [MviResult]
-         */
-        private val reducer = BiFunction { previousState: RandomQuoteViewState, result: RandomQuoteResult ->
-            when (result) {
-                is RequestNextQuoteResult -> when (result) {
-                    is RequestNextQuoteResult.Success ->
-                        previousState.copy(
-                                quote = result.quote,
-                                isFavorite = false,
-                                error = null,
-                                loading = false
-                        )
-                    RequestNextQuoteResult.InFlight ->
-                        previousState.copy(
-                                error = null,
-                                loading = true
-                        )
-                    is RequestNextQuoteResult.Failure -> previousState.copy(error = result.error)
-                }
-                is LikeQuoteResult -> when (result) {
-                    is LikeQuoteResult.Success ->
-                        previousState.copy(isFavorite = result.isFavorite)
-                    LikeQuoteResult.InFlight -> previousState.copy(
+    /**
+     * The Reducer is where [MviViewState], that the [MviView] will use to
+     * render itself, are created.
+     * It takes the last cached [MviViewState], the latest [MviResult] and
+     * creates a new [MviViewState] by only updating the related fields.
+     * This is basically like a big switch statement of all possible types for the [MviResult]
+     */
+    private val reducer = BiFunction { previousState: RandomQuoteViewState, result: RandomQuoteResult ->
+        when (result) {
+            is RequestNextQuoteResult -> when (result) {
+                is RequestNextQuoteResult.Success ->
+                    previousState.copy(
+                            quote = result.quote,
+                            isFavorite = false,
+                            error = null,
+                            loading = false
+                    )
+                RequestNextQuoteResult.InFlight ->
+                    previousState.copy(
                             error = null,
                             loading = true
                     )
-                    is LikeQuoteResult.Failure -> previousState.copy(error = result.error)
-                }
-                is RandomQuoteResult.ShareQuoteResult -> when (result) {
-                    is ShareQuoteResult.Success -> {
-                        shareCommand.value = result.text
-                        previousState.copy()
+                is RequestNextQuoteResult.Failure -> previousState.copy(error = result.error)
+            }
+            is LikeQuoteResult -> when (result) {
+                is LikeQuoteResult.Success ->
+                    previousState.copy(isFavorite = result.isFavorite)
+                LikeQuoteResult.InFlight -> previousState.copy(
+                        error = null,
+                        loading = true
+                )
+                is LikeQuoteResult.Failure -> previousState.copy(error = result.error)
+            }
+            is RandomQuoteResult.ShareQuoteResult -> when (result) {
+                is ShareQuoteResult.Success -> {
+                    shareCommand.value = result.text
+                    previousState.copy()
 
-                    }
-                    ShareQuoteResult.InFlight -> previousState.copy()
-                    is ShareQuoteResult.Failure -> previousState.copy(error = result.error)
                 }
+                ShareQuoteResult.InFlight -> previousState.copy()
+                is ShareQuoteResult.Failure -> previousState.copy(error = result.error)
             }
         }
-    //}
+    }
+
 
 }

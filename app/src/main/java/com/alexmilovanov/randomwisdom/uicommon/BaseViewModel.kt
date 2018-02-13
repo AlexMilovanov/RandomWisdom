@@ -1,6 +1,9 @@
-package com.alexmilovanov.randomwisdom.mvibase
+package com.alexmilovanov.randomwisdom.uicommon
 
 import android.arch.lifecycle.ViewModel
+import com.alexmilovanov.randomwisdom.mvibase.MviIntent
+import com.alexmilovanov.randomwisdom.mvibase.MviViewModel
+import com.alexmilovanov.randomwisdom.mvibase.MviViewState
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 

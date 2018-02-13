@@ -2,7 +2,8 @@ package com.alexmilovanov.randomwisdom.main
 
 import android.os.Bundle
 import com.alexmilovanov.randomwisdom.R
-import com.alexmilovanov.randomwisdom.mvibase.BaseActivity
+import com.alexmilovanov.randomwisdom.uicommon.BaseActivity
+import com.alexmilovanov.randomwisdom.util.ext.finishWithFadeOut
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
@@ -18,9 +19,13 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        setSupportActionBar(toolbar);
+        setSupportActionBar(toolbar)
 
         savedInstanceState ?: navigator.navigateToRandomQuotes()
+    }
+
+    override fun onBackPressed() {
+        finishWithFadeOut()
     }
 
 }

@@ -8,4 +8,6 @@ import com.alexmilovanov.randomwisdom.mvibase.MviIntent
 sealed class AppLaunchIntent : MviIntent {
 
     object InitialQuotesIntent : AppLaunchIntent()
+    object RetryIntent : AppLaunchIntent()
+
 }

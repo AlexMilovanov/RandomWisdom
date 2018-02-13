@@ -1,4 +1,4 @@
-package com.alexmilovanov.randomwisdom.util
+package com.alexmilovanov.randomwisdom.util.ext
 
 import io.reactivex.Observable
 import io.reactivex.annotations.CheckReturnValue

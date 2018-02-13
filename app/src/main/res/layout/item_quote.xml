@@ -1,0 +1,22 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable name="quote" type="com.alexmilovanov.randomwisdom.data.persistence.quotes.Quote"/>
+    </data>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@{quote.quote}"
+            android:maxLines="1"
+            tools:text="Hello"/>
+
+    </android.support.v7.widget.CardView>
+
+</layout>

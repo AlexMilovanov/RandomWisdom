@@ -3,7 +3,6 @@ package com.alexmilovanov.randomwisdom.data.repository
 import com.alexmilovanov.randomwisdom.data.network.ApiService
 import com.alexmilovanov.randomwisdom.data.persistence.quotes.FavoritesDao
 import com.alexmilovanov.randomwisdom.data.persistence.quotes.Quote
-import com.alexmilovanov.randomwisdom.util.log
 import io.reactivex.Completable
 import io.reactivex.Maybe
 import io.reactivex.Observable
@@ -62,7 +61,7 @@ constructor(private val apiService: ApiService, private val favDao: FavoritesDao
                 .toSingle()
                 .flatMap { q ->
                     if (q.quote.isEmpty()) {
-                        favDao.addToFavorites(quote)
+                        favDao.addToFavorites(quote.copy(timestamp = System.currentTimeMillis()))
                         Single.just(true)
                     } else {
                         favDao.deleteFromFavorites(quote.id)
@@ -79,17 +78,23 @@ constructor(private val apiService: ApiService, private val favDao: FavoritesDao
     }
 
     /**
+     * Retrieve a favorite quotes list if exists. Return empty list otherwise.
+     */
+    override fun getFavoritesQuotes(): Observable<List<Quote>> {
+        return favDao.loadFavoriteQuotes()
+                .defaultIfEmpty(mutableListOf())
+                .toObservable()
+    }
+
+    /**
      * Retrieve another portion of quotes from the remote source and cache it locally
      */
     private fun refreshQuotes(): Single<List<Quote>> {
-        log("getCachedQuotes()")
         return apiService.getCachedQuotes()
-                .doAfterSuccess { log("API success") }
                 .toObservable()
                 .flatMap { respQuotes -> Observable.fromIterable(respQuotes) }
                 .map { respQuote -> Quote(quote = respQuote.quote, author = respQuote.author) }
                 .doOnNext { quote -> cachedQuotes.add(quote) }
-                .doOnComplete { log("done refreshing!") }
                 .toList()
     }
 
@@ -98,10 +103,8 @@ constructor(private val apiService: ApiService, private val favDao: FavoritesDao
      */
     private fun getNextQuote(): Maybe<Quote> {
         return try {
-            log("getNextQuote()")
             Maybe.just(cachedQuotes.remove())
         } catch (e: NoSuchElementException) {
-            log("Empty!")
             Maybe.empty()
         }
     }

@@ -2,6 +2,7 @@ package com.alexmilovanov.randomwisdom.data.repository
 
 import com.alexmilovanov.randomwisdom.data.persistence.quotes.Quote
 import io.reactivex.Completable
+import io.reactivex.Observable
 import io.reactivex.Single
 
 /**
@@ -13,4 +14,5 @@ interface IQuotesRepository {
     fun getRandomQuote(): Single<Quote>
     fun addOrRemoveFromFavorites(quote: Quote): Single<Boolean>
     fun getShareQuoteText(quote: Quote): Single<String>
+    fun getFavoritesQuotes(): Observable<List<Quote>>
 }

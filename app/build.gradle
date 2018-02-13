@@ -19,6 +19,7 @@ android {
                 arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
             }
         }
+        vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
         debug {
@@ -96,7 +97,16 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxandroid:$rootProject.rxAndroidVersion"
     implementation "io.reactivex.rxjava2:rxkotlin:$rootProject.rxKotlinVersion"
     implementation "com.jakewharton.rxbinding2:rxbinding-kotlin:$rootProject.rxBindingsVersion"
+    implementation "com.jakewharton.rxbinding2:rxbinding-support-v4-kotlin:$rootProject.rxBindingsVersion"
+
+    implementation "com.jakewharton.rxbinding2:rxbinding-appcompat-v7-kotlin:$rootProject.rxBindingsVersion"
+    implementation "com.jakewharton.rxbinding2:rxbinding-design-kotlin:$rootProject.rxBindingsVersion"
+    implementation "com.jakewharton.rxbinding2:rxbinding-recyclerview-v7-kotlin:$rootProject.rxBindingsVersion"
+    implementation "com.jakewharton.rxbinding2:rxbinding-leanback-v17-kotlin:$rootProject.rxBindingsVersion"
 
     implementation "com.jakewharton.timber:timber:$rootProject.timberVersion"
+
+    implementation "com.daimajia.easing:library:$rootProject.androidViewAnimationEasingVersion"
+    implementation "com.daimajia.androidanimations:library:$rootProject.androidViewAnimationVersion"
 
 }

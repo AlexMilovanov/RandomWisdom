@@ -10,9 +10,9 @@ import android.view.ViewGroup
 import com.alexmilovanov.randomwisdom.R
 import com.alexmilovanov.randomwisdom.databinding.FragmentRandomQuoteBinding
 import com.alexmilovanov.randomwisdom.main.MainNavigator
-import com.alexmilovanov.randomwisdom.mvibase.BaseFragment
+import com.alexmilovanov.randomwisdom.uicommon.BaseFragment
 import com.alexmilovanov.randomwisdom.mvibase.*
-import com.alexmilovanov.randomwisdom.util.binding.AutoClearedValue
+import com.alexmilovanov.randomwisdom.uicommon.AutoClearedValue
 import com.alexmilovanov.randomwisdom.util.resources.ResourceProvider
 import com.jakewharton.rxbinding2.view.RxView
 import io.reactivex.Observable
@@ -45,6 +45,11 @@ class RandomQuoteFragment : BaseFragment<RandomQuoteViewModel, RandomQuoteIntent
         binding = AutoClearedValue(this, dataBinding)
 
         return dataBinding.root
+    }
+
+    override fun onStart() {
+        super.onStart()
+        btn_favorites.setOnClickListener{ navigator.navigateToFavorites() }
     }
 
     override fun initViewModel() =

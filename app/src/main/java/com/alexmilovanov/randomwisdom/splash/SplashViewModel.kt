@@ -2,9 +2,8 @@ package com.alexmilovanov.randomwisdom.splash
 
 import com.alexmilovanov.randomwisdom.mvibase.*
 import com.alexmilovanov.randomwisdom.splash.AppLaunchResult.InitialQuotesResult
-import com.alexmilovanov.randomwisdom.util.notOfType
-import com.alexmilovanov.randomwisdom.mvibase.BaseViewModel
-import com.alexmilovanov.randomwisdom.util.binding.SingleLiveEvent
+import com.alexmilovanov.randomwisdom.util.ext.notOfType
+import com.alexmilovanov.randomwisdom.uicommon.BaseViewModel
 import io.reactivex.Observable
 import io.reactivex.ObservableTransformer
 import io.reactivex.functions.BiFunction
@@ -19,9 +18,6 @@ class SplashViewModel
 @Inject constructor(private val actionProcessorHolder: AppLaunchActionProcessorHolder)
     : BaseViewModel<AppLaunchIntent, SplashViewState>() {
 
-    // Command called for the View to void main screen
-    val startCommand = SingleLiveEvent<Void>()
-
     /**
      * take only the first ever InitialIntent and all intents of other types
      * to avoid reloading data on config changes
@@ -35,10 +31,6 @@ class SplashViewModel
                 )
             }
         }
-
-    override fun processIntents(intents: Observable<AppLaunchIntent>) {
-        intents.subscribe(intentsSubject)
-    }
 
     /**
      * Compose all components to create the stream logic
@@ -68,7 +60,8 @@ class SplashViewModel
      */
     private fun actionFromIntent(intent: AppLaunchIntent): AppLaunchAction {
         return when (intent) {
-            AppLaunchIntent.InitialQuotesIntent -> AppLaunchAction.RequestInitialQuotesAction
+            AppLaunchIntent.InitialQuotesIntent,
+            AppLaunchIntent.RetryIntent -> AppLaunchAction.RequestInitialQuotesAction
         }
     }
 
@@ -83,7 +76,6 @@ class SplashViewModel
         when (result) {
             is InitialQuotesResult -> when (result) {
                 InitialQuotesResult.Success -> {
-                    startCommand.call()
                     previousState.copy(
                             dataAvailable = true,
                             loading = false,
