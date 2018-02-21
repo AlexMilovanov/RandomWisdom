@@ -11,11 +11,11 @@ import android.support.annotation.StringRes
  */
 interface IResourceProvider {
 
-    fun getString(@StringRes stringResId: Int): String
+    fun string(@StringRes stringResId: Int): String
 
-    fun getInteger(@IntegerRes integerResId: Int): Int
+    fun integer(@IntegerRes integerResId: Int): Int
 
-    fun getColor(@ColorRes colorResId: Int): Int
+    fun color(@ColorRes colorResId: Int): Int
 
-    fun getDrawable(@DrawableRes drawableResId: Int): Drawable
+    fun drawable(@DrawableRes drawableResId: Int): Drawable
 }

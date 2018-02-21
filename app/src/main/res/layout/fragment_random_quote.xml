@@ -12,36 +12,15 @@
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <Button
-            android:id="@+id/btn_next"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text="@string/button_random_text"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/btn_favorites"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintHorizontal_chainStyle="spread"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.95" />
+        android:layout_height="match_parent"
+        android:padding="@dimen/padding_standard">
 
         <TextView
             android:id="@+id/tv_quote"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
             android:fontFamily="sans-serif-light"
-            android:text="@{quote.quote}"
+            android:text="@{'\''+quote.quote+'\''}"
             android:textSize="@dimen/quote_text_size"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -49,19 +28,16 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.35000002"
+            app:layout_constraintVertical_bias="0.39"
             tools:text="'Lighthouses are more useful than churches'" />
 
         <TextView
             android:id="@+id/tv_author"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:fontFamily="sans-serif"
-            android:text="@{quote.author}"
+            android:text="@{@string/author_dash + ' ' + quote.author}"
             android:textSize="@dimen/author_text_size"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -75,57 +51,42 @@
             android:id="@+id/ib_like"
             android:layout_width="@dimen/action_icon_size"
             android:layout_height="@dimen/action_icon_size"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="@dimen/padding_small"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:background="@null"
-            app:layout_constraintBottom_toTopOf="@+id/btn_next"
-            app:layout_constraintEnd_toStartOf="@+id/guideline"
-            app:layout_constraintHorizontal_bias="0.95"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/button_favorites"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/ib_share"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_author"
-            app:srcCompat="@drawable/ic_favorite_border" />
+            app:layout_constraintVertical_bias="0.14999998"
+            app:srcCompat="@drawable/like_vector_anim"/>
 
         <ImageButton
             android:id="@+id/ib_share"
             android:layout_width="@dimen/action_icon_size"
             android:layout_height="@dimen/action_icon_size"
-            android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:background="@null"
-            app:layout_constraintBottom_toTopOf="@+id/btn_next"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.05"
-            app:layout_constraintStart_toStartOf="@+id/guideline"
-            app:layout_constraintTop_toBottomOf="@+id/tv_author"
-            app:srcCompat="@drawable/ic_share" />
-
-        <android.support.constraint.Guideline
-            android:id="@+id/guideline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.5" />
-
-        <Button
-            android:id="@+id/btn_favorites"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text="Favorites"
+            android:layout_marginStart="@dimen/padding_small"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/button_share"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/btn_next"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.95" />
+            app:layout_constraintStart_toEndOf="@+id/ib_like"
+            app:layout_constraintTop_toBottomOf="@+id/tv_author"
+            app:layout_constraintVertical_bias="0.14999998"
+            app:srcCompat="@drawable/ic_share" />
+
+        <android.support.constraint.Group
+            android:id="@+id/gr_all_views"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            app:constraint_referenced_ids="tv_quote,tv_author,ib_share,ib_like" />
+
     </android.support.constraint.ConstraintLayout>
 
 </layout>

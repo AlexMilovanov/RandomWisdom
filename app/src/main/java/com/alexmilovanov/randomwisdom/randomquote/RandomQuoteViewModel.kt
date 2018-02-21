@@ -71,7 +71,8 @@ class RandomQuoteViewModel
     private fun actionFromIntent(intent: RandomQuoteIntent): RandomQuoteAction {
         return when (intent) {
             RandomQuoteIntent.InitialIntent,
-            RandomQuoteIntent.NextQuoteIntent ->
+            RandomQuoteIntent.NextQuoteIntent,
+            RandomQuoteIntent.RetryIntent ->
                 RandomQuoteAction.RequestNextQuoteAction
             is RandomQuoteIntent.LikeCurrentQuoteIntent ->
                 RandomQuoteAction.LikeQuoteAction(intent.quote)
@@ -100,10 +101,17 @@ class RandomQuoteViewModel
                     )
                 RequestNextQuoteResult.InFlight ->
                     previousState.copy(
+                            quote = null,
+                            isFavorite = false,
                             error = null,
                             loading = true
                     )
-                is RequestNextQuoteResult.Failure -> previousState.copy(error = result.error)
+                is RequestNextQuoteResult.Failure -> previousState.copy(
+                        quote = null,
+                        isFavorite = false,
+                        error = result.error,
+                        loading = false
+                )
             }
             is LikeQuoteResult -> when (result) {
                 is LikeQuoteResult.Success ->

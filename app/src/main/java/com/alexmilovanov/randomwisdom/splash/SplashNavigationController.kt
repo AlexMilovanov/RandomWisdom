@@ -21,7 +21,7 @@ class SplashNavigationController
 
     override fun navigateToSplashScreen() {
         activity.replaceFragmentInActivity(
-                SplashFragment(),
+                SplashFragment.invoke(),
                 containerId
         )
     }
@@ -37,7 +37,7 @@ class SplashNavigationController
     override fun showErrorWithRetry(errorMsg: String): Maybe<Boolean> {
         return activity.showActionSnackbar(
                 activity.coordinator_layout, resProvider, errorMsg,
-                actionTitle = resProvider.getString(R.string.button_retry_text)
+                actionTitle = resProvider.string(R.string.button_retry_text)
         )
     }
 }

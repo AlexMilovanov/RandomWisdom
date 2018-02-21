@@ -15,12 +15,12 @@ class ResourceProvider
 @Inject
 constructor(@ApplicationContext private val ctx: Context) : IResourceProvider {
 
-    override fun getDrawable(drawableResId: Int): Drawable = ctx.resources.getDrawable(drawableResId, null)
+    override fun drawable(drawableResId: Int): Drawable = ctx.resources.getDrawable(drawableResId, null)
 
-    override fun getString(@StringRes stringResId: Int): String = ctx.resources.getString(stringResId)
+    override fun string(@StringRes stringResId: Int): String = ctx.resources.getString(stringResId)
 
-    override fun getInteger(@IntegerRes integerResId: Int): Int = ctx.resources.getInteger(integerResId)
+    override fun integer(@IntegerRes integerResId: Int): Int = ctx.resources.getInteger(integerResId)
 
-    override fun getColor(@ColorRes colorResId: Int): Int = ContextCompat.getColor(ctx, colorResId);
+    override fun color(@ColorRes colorResId: Int): Int = ContextCompat.getColor(ctx, colorResId);
 
 }

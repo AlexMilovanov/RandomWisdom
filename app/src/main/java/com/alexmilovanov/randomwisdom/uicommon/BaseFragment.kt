@@ -12,7 +12,7 @@ import io.reactivex.disposables.CompositeDisposable
 abstract class BaseFragment <VM : BaseViewModel<I, VS>, I: MviIntent, VS: MviViewState>
     : DaggerFragment(), MviView<I, VS> {
 
-    protected var mDisposables = CompositeDisposable()
+    protected var disposables = CompositeDisposable()
 
     lateinit var viewModel: VM
 
@@ -28,7 +28,7 @@ abstract class BaseFragment <VM : BaseViewModel<I, VS>, I: MviIntent, VS: MviVie
 
     override fun onDestroy() {
         super.onDestroy()
-        mDisposables.dispose()
+        disposables.dispose()
     }
 
     /**
@@ -40,7 +40,7 @@ abstract class BaseFragment <VM : BaseViewModel<I, VS>, I: MviIntent, VS: MviVie
     private fun bind() {
         viewModel = initViewModel()
         // Subscribe to the ViewModel and call render for every emitted state
-        mDisposables.add(viewModel.states().subscribe{ state -> render(state)})
+        disposables.add(viewModel.states().subscribe{ state -> render(state)})
         // Pass the UI's intents to the ViewModel
         viewModel.processIntents(intents())
     }

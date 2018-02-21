@@ -67,4 +67,8 @@ class FavoriteQuotesFragment :
     private fun setupListAdapter() {
         binding.value?.rvFavorites?.adapter = FavoriteQuotesAdapter(listOf())
     }
+
+    companion object {
+        operator fun invoke() = FavoriteQuotesFragment()
+    }
 }

@@ -76,7 +76,7 @@ fun AppCompatActivity.showSimpleSnackbar(layout: View,
                                    isError: Boolean = true) {
     val snackbar = Snackbar.make(layout, msg, length)
     snackbar.view.apply {
-        setBackgroundColor(resProvider.getColor(if (isError) R.color.colorRed else R.color.colorGray))
+        setBackgroundColor(resProvider.color(if (isError) R.color.colorRed else R.color.colorGray))
     }
     snackbar.show()
 }
@@ -121,7 +121,7 @@ fun AppCompatActivity.showActionSnackbar(layout: View,
                     })
 
                     snackbar.view.apply {
-                        setBackgroundColor(resProvider.getColor(if (isError) R.color.colorRed else R.color.colorGray))
+                        setBackgroundColor(resProvider.color(if (isError) R.color.colorRed else R.color.colorGray))
                     }
                     snackbar.show()
                 }

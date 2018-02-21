@@ -97,9 +97,6 @@ class RandomQuoteActionProcessorHolder
                             .onErrorReturn { it -> LikeQuoteResult.Failure(it) }
                             .subscribeOn(schedulerProvider.io())
                             .observeOn(schedulerProvider.ui())
-                            // Emit an InFlight event to notify the subscribers (e.g. the UI) we are
-                            // doing work and waiting on a response.
-                            .startWith(LikeQuoteResult.InFlight)
                 }
             }
 
@@ -119,9 +116,6 @@ class RandomQuoteActionProcessorHolder
                             .onErrorReturn { it -> ShareQuoteResult.Failure(it) }
                             .subscribeOn(schedulerProvider.computation())
                             .observeOn(schedulerProvider.ui())
-                            // Emit an InFlight event to notify the subscribers (e.g. the UI) we are
-                            // doing work and waiting on a response.
-                            .startWith(ShareQuoteResult.InFlight)
                 }
             }
 

@@ -1,8 +1,15 @@
 <resources>
     <string name="app_name">Random Wisdom</string>
 
+    <string name="tab_random_title">Random</string>
+    <string name="tab_favorites_title">Favorites</string>
+
     <string name="button_random_text">Next</string>
     <string name="button_retry_text">Retry</string>
+    <string name="button_favorites">Favorites</string>
+    <string name="button_share">Share</string>
+
+    <string name="author_dash">–</string>
 
     <string name="error_message_no_network">Internet not available. Please check your connection and try again.</string>
     <string name="error_message_unexpected_error">Unexpected error occurred. Please try again later.</string>

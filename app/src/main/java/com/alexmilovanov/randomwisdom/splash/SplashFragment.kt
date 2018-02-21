@@ -29,7 +29,6 @@ class SplashFragment : BaseFragment<SplashViewModel, AppLaunchIntent, SplashView
     @Inject
     lateinit var navigator: SplashNavigator
 
-    private val splashDuration = 3000L
 
     private var animationInProgress = false
 
@@ -59,7 +58,7 @@ class SplashFragment : BaseFragment<SplashViewModel, AppLaunchIntent, SplashView
             }
         }
         if (state.error != null) {
-            mDisposables.add(navigator.showErrorWithRetry(state.error.localizedMessage).subscribe {
+            disposables.add(navigator.showErrorWithRetry(state.error.localizedMessage).subscribe {
                 //Trigger RetryIntent upon Retry button click
                 retryIntentPublisher.onNext(AppLaunchIntent.RetryIntent)
             })
@@ -87,10 +86,8 @@ class SplashFragment : BaseFragment<SplashViewModel, AppLaunchIntent, SplashView
     }
 
     /**
-     * The initial Intent the [MviView] emit to convey to the [MviViewModel]
-     * that it is ready to receive data.
-     * This initial Intent is also used to pass any parameters the [MviViewModel] might need
-     * to render the initial [MviViewState] (e.g. the task id to load).
+     * The Intent the [MviView] emit to convey to the [MviViewModel]
+     * that it needs to retry loading initial data
      */
     private fun retryIntent(): Observable<AppLaunchIntent.RetryIntent> {
         return retryIntentPublisher
@@ -101,7 +98,7 @@ class SplashFragment : BaseFragment<SplashViewModel, AppLaunchIntent, SplashView
      */
     private fun launchLogoAnimation(){
         YoYo.with(Techniques.ZoomInUp).apply {
-            duration(splashDuration)
+            duration(SPLASH_DURATION)
             interpolate(AccelerateDecelerateInterpolator())
             withListener(object : Animator.AnimatorListener{
                 override fun onAnimationRepeat(p0: Animator?) {
@@ -123,5 +120,12 @@ class SplashFragment : BaseFragment<SplashViewModel, AppLaunchIntent, SplashView
             playOn(iv_logo)
             playOn(iv_title)
         }
+    }
+
+    companion object {
+
+        const val SPLASH_DURATION = 3000L
+
+        operator fun invoke() = SplashFragment()
     }
 }

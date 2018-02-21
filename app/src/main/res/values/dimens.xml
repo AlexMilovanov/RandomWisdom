@@ -11,11 +11,14 @@
     <dimen name="padding_large">32dp</dimen>
     <dimen name="padding_xlarge">48dp</dimen>
 
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="fab_elevation">4dp</dimen>
+
     <dimen name="splash_title_width">280dp</dimen>
     <dimen name="splash_logo_size">164dp</dimen>
 
-    <dimen name="action_icon_size">32dp</dimen>
-    <dimen name="quote_text_size">24sp</dimen>
+    <dimen name="action_icon_size">48dp</dimen>
+    <dimen name="quote_text_size">22sp</dimen>
     <dimen name="author_text_size">18sp</dimen>
 
 </resources>

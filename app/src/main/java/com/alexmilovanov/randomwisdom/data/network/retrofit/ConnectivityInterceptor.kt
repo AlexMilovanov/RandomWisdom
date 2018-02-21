@@ -18,7 +18,7 @@ class ConnectivityInterceptor @Inject constructor(private val connectManager: Co
     override fun intercept(chain: Interceptor.Chain): Response {
 
         if(!isOnline()){
-            throw NoNetworkException(resProvider.getString(R.string.error_message_no_network))
+            throw NoNetworkException(resProvider.string(R.string.error_message_no_network))
         }
 
         val original = chain.request()

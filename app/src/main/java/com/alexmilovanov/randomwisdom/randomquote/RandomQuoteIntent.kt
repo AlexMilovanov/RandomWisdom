@@ -10,6 +10,7 @@ sealed class RandomQuoteIntent : MviIntent {
 
     object InitialIntent : RandomQuoteIntent()
     object NextQuoteIntent : RandomQuoteIntent()
+    object RetryIntent : RandomQuoteIntent()
     data class LikeCurrentQuoteIntent (val quote: Quote) : RandomQuoteIntent()
     data class ShareCurrentQuoteIntent (val quote: Quote) : RandomQuoteIntent()
 
