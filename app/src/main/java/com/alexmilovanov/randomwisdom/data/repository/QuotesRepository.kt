@@ -61,7 +61,12 @@ constructor(private val apiService: ApiService, private val favDao: FavoritesDao
                 .toSingle()
                 .flatMap { q ->
                     if (q.quote.isEmpty()) {
-                        favDao.addToFavorites(quote.copy(timestamp = System.currentTimeMillis()))
+                        val quoteToAdd = if (quote.timestamp == 0L) {
+                            quote.copy(timestamp = System.currentTimeMillis())
+                        } else {
+                            quote
+                        }
+                        favDao.addToFavorites(quoteToAdd)
                         Single.just(true)
                     } else {
                         favDao.deleteFromFavorites(quote.id)
@@ -108,6 +113,5 @@ constructor(private val apiService: ApiService, private val favDao: FavoritesDao
             Maybe.empty()
         }
     }
-
 
 }

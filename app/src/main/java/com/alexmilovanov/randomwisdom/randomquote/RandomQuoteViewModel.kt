@@ -125,7 +125,7 @@ class RandomQuoteViewModel
             is RandomQuoteResult.ShareQuoteResult -> when (result) {
                 is ShareQuoteResult.Success -> {
                     shareCommand.value = result.text
-                    previousState.copy()
+                    previousState
 
                 }
                 ShareQuoteResult.InFlight -> previousState.copy()

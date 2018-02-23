@@ -14,4 +14,14 @@ sealed class FavoriteQuotesResult : MviResult {
         data class Failure(val error: Throwable) : RequestFavoritesResult()
         object InFlight : RequestFavoritesResult()
     }
+
+    sealed class RemoveFromFavoritesResult : FavoriteQuotesResult() {
+        data class Success (val quote: Quote) : RemoveFromFavoritesResult()
+        data class Failure(val error: Throwable) : RemoveFromFavoritesResult()
+    }
+
+    sealed class AddToFavoritesResult : FavoriteQuotesResult() {
+        data class Success (val quote: Quote) : AddToFavoritesResult()
+        data class Failure(val error: Throwable) : AddToFavoritesResult()
+    }
 }

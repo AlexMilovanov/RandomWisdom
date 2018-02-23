@@ -1,9 +1,11 @@
 package com.alexmilovanov.randomwisdom.favorites
 
+import com.alexmilovanov.randomwisdom.data.persistence.quotes.Quote
 import com.alexmilovanov.randomwisdom.mvibase.*
-
 import com.alexmilovanov.randomwisdom.favorites.FavoriteQuotesResult.RequestFavoritesResult
+import com.alexmilovanov.randomwisdom.favorites.FavoriteQuotesResult.RemoveFromFavoritesResult
 import com.alexmilovanov.randomwisdom.uicommon.BaseViewModel
+import com.alexmilovanov.randomwisdom.uicommon.SingleLiveEvent
 import com.alexmilovanov.randomwisdom.util.ext.notOfType
 import io.reactivex.Observable
 import io.reactivex.ObservableTransformer
@@ -18,6 +20,9 @@ import javax.inject.Inject
 class FavoriteQuotesViewModel
 @Inject constructor(private val actionProcessorHolder: FavoriteQuotesActionProcessorHolder)
     : BaseViewModel<FavoriteQuotesIntent, FavoriteQuotesViewState>()  {
+
+    // Command called for the View to notify user about successful quot removal from Favorites
+    val notifyQuoteRemovedCommand = SingleLiveEvent<Quote>()
 
     /**
      * take only the first ever InitialIntent and all intents of other types
@@ -40,7 +45,7 @@ class FavoriteQuotesViewModel
         return intentsSubject
                 .compose<FavoriteQuotesIntent>(intentFilter)
                 .map { intent -> actionFromIntent(intent) }
-                .compose(actionProcessorHolder.initialQuotesProcessor)
+                .compose(actionProcessorHolder.actionProcessor)
                 // Cache each state and pass it to the reducer to create a new state from
                 // the previous cached one and the latest Result emitted from the action processor.
                 // The Scan operator is used here for the caching.
@@ -61,6 +66,8 @@ class FavoriteQuotesViewModel
     private fun actionFromIntent(intent: FavoriteQuotesIntent): FavoriteQuotesAction {
         return when (intent) {
             FavoriteQuotesIntent.InitialIntent -> FavoriteQuotesAction.RequestFavoritesAction
+            is FavoriteQuotesIntent.DeleteQuoteIntent -> FavoriteQuotesAction.RemoveFromFavoritesAction(intent.quote)
+            is FavoriteQuotesIntent.RestoreQuoteIntent -> FavoriteQuotesAction.RestoreInFavoritesAction(intent.quote)
         }
     }
 
@@ -76,9 +83,9 @@ class FavoriteQuotesViewModel
             is RequestFavoritesResult -> when (result) {
                 is RequestFavoritesResult.Success ->
                     previousState.copy(
-                            result.quotes,
-                            false,
-                            null
+                            favorites = result.quotes,
+                            loading = false,
+                            error = null
 
                     )
                 RequestFavoritesResult.InFlight -> {
@@ -88,6 +95,32 @@ class FavoriteQuotesViewModel
                     )
                 }
                 is RequestFavoritesResult.Failure -> {
+                    previousState.copy(
+                            loading = false,
+                            error = result.error
+                    )
+                }
+            }
+
+            is RemoveFromFavoritesResult -> when (result) {
+                is FavoriteQuotesResult.RemoveFromFavoritesResult.Success -> {
+                    // notify user on successful removal from Favorites
+                    notifyQuoteRemovedCommand.value = result.quote
+                    previousState
+                }
+                is FavoriteQuotesResult.RemoveFromFavoritesResult.Failure -> {
+                    previousState.copy(
+                            loading = false,
+                            error = result.error
+                    )
+                }
+            }
+
+            is FavoriteQuotesResult.AddToFavoritesResult -> when (result) {
+                is FavoriteQuotesResult.AddToFavoritesResult.Success -> {
+                    previousState
+                }
+                is FavoriteQuotesResult.AddToFavoritesResult.Failure -> {
                     previousState.copy(
                             loading = false,
                             error = result.error

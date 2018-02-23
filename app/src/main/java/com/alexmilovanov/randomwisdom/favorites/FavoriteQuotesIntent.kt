@@ -1,5 +1,6 @@
 package com.alexmilovanov.randomwisdom.favorites
 
+import com.alexmilovanov.randomwisdom.data.persistence.quotes.Quote
 import com.alexmilovanov.randomwisdom.mvibase.MviIntent
 
 /**
@@ -8,5 +9,6 @@ import com.alexmilovanov.randomwisdom.mvibase.MviIntent
 sealed class FavoriteQuotesIntent : MviIntent {
 
     object InitialIntent : FavoriteQuotesIntent()
-
+    data class DeleteQuoteIntent(val quote: Quote) : FavoriteQuotesIntent()
+    data class RestoreQuoteIntent(val quote: Quote) : FavoriteQuotesIntent()
 }

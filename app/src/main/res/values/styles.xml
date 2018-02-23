@@ -21,6 +21,7 @@
         <item name="android:foreground">?android:attr/selectableItemBackground</item>
         <item name="android:clickable">true</item>
         <item name="android:focusable">true</item>
+        <item name="cardUseCompatPadding">true</item>
         <item name="cardBackgroundColor">@color/colorWhite</item>
         <item name="cardCornerRadius">@dimen/card_view_corner_radius</item>
         <item name="cardElevation">@dimen/card_view_elevation</item>

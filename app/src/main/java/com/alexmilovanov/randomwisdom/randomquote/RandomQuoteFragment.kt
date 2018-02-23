@@ -97,7 +97,7 @@ class RandomQuoteFragment : BaseFragment<RandomQuoteViewModel, RandomQuoteIntent
         state.error?.let {
             disposables.add(navigator.showErrorWithRetry(state.error.localizedMessage).subscribe {
                 //Trigger RetryIntent upon Retry button click
-                retryIntentPublisher.onNext(RandomQuoteIntent.RetryIntent)
+                   retryIntentPublisher.onNext(RandomQuoteIntent.RetryIntent)
             })
             // hide all data in case of an error
             gr_all_views.visibility = View.INVISIBLE

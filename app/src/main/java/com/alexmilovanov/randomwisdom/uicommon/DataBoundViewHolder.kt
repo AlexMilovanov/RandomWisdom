@@ -8,5 +8,5 @@ import android.support.v7.widget.RecyclerView
  * corresponding item layout as defined in the layout xml.
  * @param <T> The type of the ViewDataBinding.
  */
-class DataBoundViewHolder<out V : ViewDataBinding> (val binding: V)
+open class DataBoundViewHolder<out V : ViewDataBinding> (val binding: V)
     : RecyclerView.ViewHolder(binding.root)

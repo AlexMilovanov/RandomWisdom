@@ -11,4 +11,5 @@ sealed class RandomQuoteAction : MviAction {
     object RequestNextQuoteAction : RandomQuoteAction()
     data class LikeQuoteAction (val quote: Quote) : RandomQuoteAction()
     data class ShareQuoteAction (val quote: Quote) : RandomQuoteAction()
+
 }

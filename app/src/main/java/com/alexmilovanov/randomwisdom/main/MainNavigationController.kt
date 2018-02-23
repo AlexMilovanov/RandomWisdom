@@ -1,5 +1,6 @@
 package com.alexmilovanov.randomwisdom.main
 
+import android.support.design.widget.Snackbar
 import com.alexmilovanov.randomwisdom.R
 import com.alexmilovanov.randomwisdom.randomquote.RandomQuoteFragment
 import com.alexmilovanov.randomwisdom.util.ext.replaceFragmentInActivity
@@ -47,8 +48,21 @@ class MainNavigationController
 
     override fun showErrorWithRetry(errorMsg: String): Maybe<Boolean> {
         return activity.showActionSnackbar(
-                activity.coordinator_layout, resProvider, errorMsg,
+                layout = activity.coordinator_layout,
+                resProvider = resProvider,
+                msg = errorMsg,
                 actionTitle = resProvider.string(R.string.button_retry_text)
+        )
+    }
+
+    override fun showNotificationWithAction(msg: String): Maybe<Boolean> {
+        return activity.showActionSnackbar(
+                activity.coordinator_layout,
+                resProvider,
+                msg = msg,
+                length = Snackbar.LENGTH_LONG,
+                isError = false,
+                actionTitle = resProvider.string(R.string.button_undo_text)
         )
     }
 

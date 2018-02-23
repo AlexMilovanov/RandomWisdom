@@ -14,4 +14,6 @@ interface MainNavigator {
     fun shareText(text: String)
 
     fun showErrorWithRetry(errorMsg: String) : Maybe<Boolean>
+
+    fun showNotificationWithAction(msg: String) : Maybe<Boolean>
 }

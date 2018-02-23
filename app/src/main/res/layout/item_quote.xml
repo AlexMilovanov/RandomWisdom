@@ -1,44 +1,82 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <variable name="quote" type="com.alexmilovanov.randomwisdom.data.persistence.quotes.Quote"/>
+        <variable
+            name="quote"
+            type="com.alexmilovanov.randomwisdom.data.persistence.quotes.Quote" />
     </data>
 
-    <android.support.v7.widget.CardView
-        style="@style/CardViewStyle">
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <android.support.v7.widget.CardView
+            android:id="@+id/cv_quote"
+            style="@style/CardViewStyle"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/padding_small"
+                android:paddingEnd="@dimen/padding_medium"
+                android:paddingStart="@dimen/padding_medium"
+                android:paddingTop="@dimen/padding_small">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:fontFamily="sans-serif-light"
+                    android:text="@{quote.quote}"
+                    android:textSize="@dimen/quote_list_text_size"
+                    tools:text="Hello" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginTop="@dimen/padding_nano"
+                    android:fontFamily="sans-serif"
+                    android:gravity="end"
+                    android:text="@{@string/author_dash + ' ' + quote.author}"
+                    android:textSize="@dimen/author_list_text_size"
+                    tools:text="Hello" />
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <View
+            android:id="@+id/v_swipe_dismiss"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="@dimen/padding_micro"
+            android:background="@drawable/swipeable_cardview_background"
+            app:cardCornerRadius="@dimen/card_view_corner_radius"
+            app:layout_constraintBottom_toBottomOf="@+id/cv_quote"
+            app:layout_constraintLeft_toLeftOf="@+id/cv_quote"
+            app:layout_constraintRight_toRightOf="@+id/cv_quote"
+            app:layout_constraintTop_toTopOf="@+id/cv_quote" />
+
+        <ImageView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingStart="@dimen/padding_medium"
-            android:paddingEnd="@dimen/padding_medium"
-            android:paddingTop="@dimen/padding_small"
-            android:paddingBottom="@dimen/padding_small">
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/ic_remove_forever"
+            android:contentDescription="@string/button_delete"
+            app:layout_constraintHorizontal_bias="9"
+            app:layout_constraintBottom_toBottomOf="@+id/v_swipe_dismiss"
+            app:layout_constraintLeft_toLeftOf="@+id/v_swipe_dismiss"
+            app:layout_constraintRight_toRightOf="@id/v_swipe_dismiss"
+            app:layout_constraintTop_toTopOf="@id/v_swipe_dismiss" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:fontFamily="sans-serif-light"
-                android:textSize="@dimen/quote_list_text_size"
-                android:text="@{quote.quote}"
-                tools:text="Hello"/>
+    </android.support.constraint.ConstraintLayout>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:gravity="end"
-                android:fontFamily="sans-serif"
-                android:layout_marginTop="@dimen/padding_nano"
-                android:textSize="@dimen/author_list_text_size"
-                android:text="@{@string/author_dash + ' ' + quote.author}"
-                tools:text="Hello"/>
-
-        </LinearLayout>
-
-    </android.support.v7.widget.CardView>
 
 </layout>

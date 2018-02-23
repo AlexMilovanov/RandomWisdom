@@ -6,13 +6,17 @@
 
     <string name="button_random_text">Next</string>
     <string name="button_retry_text">Retry</string>
+    <string name="button_undo_text">Undo</string>
     <string name="button_favorites">Favorites</string>
     <string name="button_share">Share</string>
+    <string name="button_delete">Delete</string>
 
     <string name="author_dash">–</string>
 
-    <string name="error_message_no_network">Internet not available. Please check your connection and try again.</string>
-    <string name="error_message_unexpected_error">Unexpected error occurred. Please try again later.</string>
+    <string name="msg_removed_from_favs">Quote removed from Favorites</string>
+
+    <string name="error_msg_no_network">Internet not available. Please check your connection and try again.</string>
+    <string name="error_msg_unexpected_error">Unexpected error occurred. Please try again later.</string>
 
     <string name="content_desc_logo">Random Wisdom logo</string>
 </resources>

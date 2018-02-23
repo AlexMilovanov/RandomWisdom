@@ -1,5 +1,6 @@
 package com.alexmilovanov.randomwisdom.favorites
 
+import com.alexmilovanov.randomwisdom.data.persistence.quotes.Quote
 import com.alexmilovanov.randomwisdom.mvibase.MviAction
 
 /**
@@ -8,4 +9,7 @@ import com.alexmilovanov.randomwisdom.mvibase.MviAction
 sealed class FavoriteQuotesAction : MviAction {
 
     object RequestFavoritesAction : FavoriteQuotesAction()
+    data class RemoveFromFavoritesAction(val quote: Quote) : FavoriteQuotesAction()
+    data class RestoreInFavoritesAction(val quote: Quote) : FavoriteQuotesAction()
+
 }

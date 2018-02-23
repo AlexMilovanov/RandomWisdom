@@ -1,12 +1,15 @@
 package com.alexmilovanov.randomwisdom.favorites
 
 import android.databinding.DataBindingUtil
+import android.support.v7.widget.CardView
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import com.alexmilovanov.randomwisdom.R
 import com.alexmilovanov.randomwisdom.data.persistence.quotes.Quote
 import com.alexmilovanov.randomwisdom.databinding.ItemQuoteBinding
 import com.alexmilovanov.randomwisdom.uicommon.DataBoundListAdapter
+import com.alexmilovanov.randomwisdom.uicommon.DataBoundViewHolder
 
 /**
  * A RecyclerView adapter implementation populating favorite quotes list.
@@ -33,8 +36,24 @@ class FavoriteQuotesAdapter (quotes: List<Quote>) : DataBoundListAdapter<Quote, 
         return binding
     }
 
+    /**
+     * Override to deliver custom implementation of DataBoundViewHolder
+     */
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataBoundViewHolder<ItemQuoteBinding> =
+        ViewHolderRecyclerViewAnimation(createBinding(parent))
+
+
     override fun bind(binding: ItemQuoteBinding, item: Quote) {
         binding.quote = item
+    }
+
+    class ViewHolderRecyclerViewAnimation (binding: ItemQuoteBinding)
+        : DataBoundViewHolder <ItemQuoteBinding> (binding) {
+
+        // Layout displayed when the user does a swipe
+        val viewBackground = binding.root.findViewById<View>(R.id.v_swipe_dismiss)
+        // Layout shown to the user by default.
+        val cardViewForeground = binding.root.findViewById<CardView>(R.id.cv_quote)
     }
 
 }
