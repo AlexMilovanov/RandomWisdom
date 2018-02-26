@@ -11,5 +11,6 @@ sealed class FavoriteQuotesAction : MviAction {
     object RequestFavoritesAction : FavoriteQuotesAction()
     data class RemoveFromFavoritesAction(val quote: Quote) : FavoriteQuotesAction()
     data class RestoreInFavoritesAction(val quote: Quote) : FavoriteQuotesAction()
+    data class ShareQuoteAction (val quote: Quote) : FavoriteQuotesAction()
 
 }

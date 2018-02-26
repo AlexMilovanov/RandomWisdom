@@ -24,4 +24,9 @@ sealed class FavoriteQuotesResult : MviResult {
         data class Success (val quote: Quote) : AddToFavoritesResult()
         data class Failure(val error: Throwable) : AddToFavoritesResult()
     }
+
+    sealed class ShareQuoteResult : FavoriteQuotesResult() {
+        data class Success(val text: String) : ShareQuoteResult()
+        data class Failure(val error: Throwable) : ShareQuoteResult()
+    }
 }

@@ -10,6 +10,8 @@ import com.alexmilovanov.randomwisdom.data.persistence.quotes.Quote
 import com.alexmilovanov.randomwisdom.databinding.ItemQuoteBinding
 import com.alexmilovanov.randomwisdom.uicommon.DataBoundListAdapter
 import com.alexmilovanov.randomwisdom.uicommon.DataBoundViewHolder
+import com.alexmilovanov.randomwisdom.util.log
+import kotlinx.android.synthetic.main.item_quote.view.*
 
 /**
  * A RecyclerView adapter implementation populating favorite quotes list.
@@ -26,7 +28,7 @@ class FavoriteQuotesAdapter (quotes: List<Quote>) : DataBoundListAdapter<Quote, 
                         parent,
                         false)
 
-        binding.root.setOnClickListener({
+        binding.root.cv_quote.setOnClickListener({
             val quote: Quote? = binding.quote
             quote?.let {
                 itemClickSubject.onNext(quote)

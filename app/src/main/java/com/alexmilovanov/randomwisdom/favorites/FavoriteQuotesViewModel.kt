@@ -4,6 +4,8 @@ import com.alexmilovanov.randomwisdom.data.persistence.quotes.Quote
 import com.alexmilovanov.randomwisdom.mvibase.*
 import com.alexmilovanov.randomwisdom.favorites.FavoriteQuotesResult.RequestFavoritesResult
 import com.alexmilovanov.randomwisdom.favorites.FavoriteQuotesResult.RemoveFromFavoritesResult
+import com.alexmilovanov.randomwisdom.favorites.FavoriteQuotesResult.AddToFavoritesResult
+import com.alexmilovanov.randomwisdom.favorites.FavoriteQuotesResult.ShareQuoteResult
 import com.alexmilovanov.randomwisdom.uicommon.BaseViewModel
 import com.alexmilovanov.randomwisdom.uicommon.SingleLiveEvent
 import com.alexmilovanov.randomwisdom.util.ext.notOfType
@@ -23,6 +25,9 @@ class FavoriteQuotesViewModel
 
     // Command called for the View to notify user about successful quot removal from Favorites
     val notifyQuoteRemovedCommand = SingleLiveEvent<Quote>()
+
+    // Command called for the View to share some text
+    val shareCommand = SingleLiveEvent<String>()
 
     /**
      * take only the first ever InitialIntent and all intents of other types
@@ -68,6 +73,7 @@ class FavoriteQuotesViewModel
             FavoriteQuotesIntent.InitialIntent -> FavoriteQuotesAction.RequestFavoritesAction
             is FavoriteQuotesIntent.DeleteQuoteIntent -> FavoriteQuotesAction.RemoveFromFavoritesAction(intent.quote)
             is FavoriteQuotesIntent.RestoreQuoteIntent -> FavoriteQuotesAction.RestoreInFavoritesAction(intent.quote)
+            is FavoriteQuotesIntent.ShareQuoteIntent -> FavoriteQuotesAction.ShareQuoteAction(intent.quote)
         }
     }
 
@@ -116,7 +122,7 @@ class FavoriteQuotesViewModel
                 }
             }
 
-            is FavoriteQuotesResult.AddToFavoritesResult -> when (result) {
+            is AddToFavoritesResult -> when (result) {
                 is FavoriteQuotesResult.AddToFavoritesResult.Success -> {
                     previousState
                 }
@@ -126,6 +132,13 @@ class FavoriteQuotesViewModel
                             error = result.error
                     )
                 }
+            }
+            is ShareQuoteResult -> when (result) {
+                is ShareQuoteResult.Success -> {
+                    shareCommand.value = result.text
+                    previousState
+                }
+                is ShareQuoteResult.Failure -> previousState.copy(error = result.error)
             }
         }
     }

@@ -36,13 +36,15 @@ class FavoriteQuotesActionProcessorHolder
                             // Match Actions to appropriate Processors
                             shared.ofType(FavoriteQuotesAction.RequestFavoritesAction::class.java).compose(initialQuotesProcessor),
                             shared.ofType(FavoriteQuotesAction.RestoreInFavoritesAction::class.java).compose(addQuoteProcessor),
-                            shared.ofType(FavoriteQuotesAction.RemoveFromFavoritesAction::class.java).compose(removeQuoteProcessor))
+                            shared.ofType(FavoriteQuotesAction.RemoveFromFavoritesAction::class.java).compose(removeQuoteProcessor),
+                            shared.ofType(FavoriteQuotesAction.ShareQuoteAction::class.java).compose(shareQuoteProcessor))
                                     .mergeWith(
                                             // Error for not implemented actions
                                             shared.filter({ v ->
                                                 (v != FavoriteQuotesAction.RequestFavoritesAction &&
                                                         v !is FavoriteQuotesAction.RemoveFromFavoritesAction &&
-                                                        v !is FavoriteQuotesAction.RestoreInFavoritesAction)
+                                                        v !is FavoriteQuotesAction.RestoreInFavoritesAction &&
+                                                        v !is FavoriteQuotesAction.ShareQuoteAction)
                                             })
                                                     .flatMap({ w ->
                                                         Observable.error<FavoriteQuotesResult>(
@@ -109,4 +111,22 @@ class FavoriteQuotesActionProcessorHolder
                 }
             }
 
+    private val shareQuoteProcessor =
+            ObservableTransformer<FavoriteQuotesAction.ShareQuoteAction, FavoriteQuotesResult.ShareQuoteResult> { actions ->
+                actions.flatMap { action ->
+                    quotesRepo.getShareQuoteText(action.quote)
+                            // Transform the Completable to an Observable to allow emission of multiple
+                            // events down the stream (e.g. the InFlight event)
+                            .toObservable()
+                            // Wrap returned data into an immutable object
+                            .map { it -> FavoriteQuotesResult.ShareQuoteResult.Success(it) }
+                            .cast(FavoriteQuotesResult.ShareQuoteResult::class.java)
+                            // Wrap any error into an immutable object and pass it down the stream
+                            // without crashing.
+                            // Because errors are data and hence, should just be part of the stream.
+                            .onErrorReturn { it -> FavoriteQuotesResult.ShareQuoteResult.Failure(it) }
+                            .subscribeOn(schedulerProvider.computation())
+                            .observeOn(schedulerProvider.ui())
+                }
+            }
 }

@@ -37,11 +37,17 @@ class FavoriteQuotesFragment :
     @Inject
     lateinit var resProvider: ResourceProvider
 
+    private val listAdapter by lazy  {
+        binding.value?.rvFavorites?.adapter as FavoriteQuotesAdapter
+    }
+
     private lateinit var binding: AutoClearedValue<FragmentFavoriteQuotesBinding>
 
     private val deleteIntentPublisher = PublishSubject.create<FavoriteQuotesIntent.DeleteQuoteIntent>()
 
     private val restoreIntentPublisher = PublishSubject.create<FavoriteQuotesIntent.RestoreQuoteIntent>()
+
+    private val shareIntentPublisher = PublishSubject.create<FavoriteQuotesIntent.ShareQuoteIntent>()
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -57,12 +63,11 @@ class FavoriteQuotesFragment :
     }
 
     override fun intents(): Observable<FavoriteQuotesIntent> =
-            Observable.merge(initialIntent(), deleteIntent(), restoreIntent())
+            Observable.merge(initialIntent(), deleteIntent(), restoreIntent(), shareIntent())
 
     override fun render(state: FavoriteQuotesViewState) {
-        val adapter = binding.value?.rvFavorites?.adapter as FavoriteQuotesAdapter
-        if (!state.loading && state.error == null && state.favorites != null && adapter.itemCount == 0) {
-            adapter.add(state.favorites)
+        if (!state.loading && state.error == null && state.favorites != null && listAdapter.itemCount == 0) {
+            listAdapter.add(state.favorites)
         }
     }
 
@@ -76,10 +81,15 @@ class FavoriteQuotesFragment :
                             // and sending corresponding intent
                             disposables.add(navigator.showNotificationWithAction(resProvider.string(R.string.msg_removed_from_favs))
                                     .subscribe {
-                                        val adapter = binding.value!!.rvFavorites.adapter as FavoriteQuotesAdapter
-                                        adapter.add(quote)
+                                        listAdapter.add(quote)
                                         restoreIntentPublisher.onNext(FavoriteQuotesIntent.RestoreQuoteIntent(quote))
                                     })
+                        }
+                    })
+            shareCommand.observe(fragment,
+                    Observer { text ->
+                        text?.let {
+                            navigator.shareText(text)
                         }
                     })
         }
@@ -92,9 +102,8 @@ class FavoriteQuotesFragment :
      * Remove quote upon swipe gesture and send corresponding intent
      */
     override fun onSwipe(position: Int) {
-        val adapter = binding.value!!.rvFavorites.adapter as FavoriteQuotesAdapter
-        val item = adapter.getItem(position)
-        adapter.remove(item)
+        val item = listAdapter.getItem(position)
+        listAdapter.remove(item)
         deleteIntentPublisher.onNext(FavoriteQuotesIntent.DeleteQuoteIntent(item))
     }
 
@@ -111,6 +120,12 @@ class FavoriteQuotesFragment :
     private fun restoreIntent(): Observable<FavoriteQuotesIntent.RestoreQuoteIntent> = restoreIntentPublisher
 
     /**
+     * The Intent the [MviView] emit to convey to the [MviViewModel]
+     * to share selected quote
+     */
+    private fun shareIntent(): Observable<FavoriteQuotesIntent.ShareQuoteIntent> = shareIntentPublisher
+
+    /**
      * The initial Intent the [MviView] emit to convey to the [MviViewModel]
      * that it is ready to receive data.
      * This initial Intent is also used to pass any parameters the [MviViewModel] might need
@@ -125,6 +140,11 @@ class FavoriteQuotesFragment :
         // Attach the RecyclerView to itemTouchHelper.SimpleCallback implementation.
         val itemSimpleCallback: ItemTouchHelper.SimpleCallback = SwipeDismissItemTouchHelper(0, ItemTouchHelper.LEFT, this)
         ItemTouchHelper(itemSimpleCallback).attachToRecyclerView(binding.value!!.rvFavorites)
+        disposables.add(
+                listAdapter.itemClickObservable.subscribe { quote ->
+                    shareIntentPublisher.onNext(FavoriteQuotesIntent.ShareQuoteIntent(quote))
+                }
+        )
     }
 
     companion object {

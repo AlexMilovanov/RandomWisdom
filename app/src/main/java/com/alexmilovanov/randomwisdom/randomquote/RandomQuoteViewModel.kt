@@ -126,13 +126,10 @@ class RandomQuoteViewModel
                 is ShareQuoteResult.Success -> {
                     shareCommand.value = result.text
                     previousState
-
                 }
-                ShareQuoteResult.InFlight -> previousState.copy()
                 is ShareQuoteResult.Failure -> previousState.copy(error = result.error)
             }
         }
     }
-
 
 }

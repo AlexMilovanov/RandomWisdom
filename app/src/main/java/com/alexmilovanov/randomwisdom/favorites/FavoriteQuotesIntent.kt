@@ -11,4 +11,5 @@ sealed class FavoriteQuotesIntent : MviIntent {
     object InitialIntent : FavoriteQuotesIntent()
     data class DeleteQuoteIntent(val quote: Quote) : FavoriteQuotesIntent()
     data class RestoreQuoteIntent(val quote: Quote) : FavoriteQuotesIntent()
+    data class ShareQuoteIntent (val quote: Quote) : FavoriteQuotesIntent()
 }

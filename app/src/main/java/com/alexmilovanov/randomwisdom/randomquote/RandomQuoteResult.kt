@@ -23,7 +23,6 @@ sealed class RandomQuoteResult : MviResult {
     sealed class ShareQuoteResult : RandomQuoteResult() {
         data class Success(val text: String) : ShareQuoteResult()
         data class Failure(val error: Throwable) : ShareQuoteResult()
-        object InFlight : ShareQuoteResult()
     }
 
 }
