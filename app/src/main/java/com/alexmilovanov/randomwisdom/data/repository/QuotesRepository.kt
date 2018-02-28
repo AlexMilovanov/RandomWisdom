@@ -3,10 +3,8 @@ package com.alexmilovanov.randomwisdom.data.repository
 import com.alexmilovanov.randomwisdom.data.network.ApiService
 import com.alexmilovanov.randomwisdom.data.persistence.quotes.FavoritesDao
 import com.alexmilovanov.randomwisdom.data.persistence.quotes.Quote
-import io.reactivex.Completable
-import io.reactivex.Maybe
+import io.reactivex.*
 import io.reactivex.Observable
-import io.reactivex.Single
 import java.util.*
 import javax.inject.Inject
 import kotlin.NoSuchElementException
@@ -19,7 +17,7 @@ class QuotesRepository
 constructor(private val apiService: ApiService, private val favDao: FavoritesDao) : IQuotesRepository {
 
     // Cached quotes serving as local data source
-    private val cachedQuotes: Queue<Quote> = ArrayDeque()
+    private val cachedQuotes: Queue<Quote> = ArrayDeque<Quote>()
 
     /**
      * Ensure cached quotes are available before the first quote is requested
@@ -61,11 +59,14 @@ constructor(private val apiService: ApiService, private val favDao: FavoritesDao
                 .toSingle()
                 .flatMap { q ->
                     if (q.quote.isEmpty()) {
-                        val quoteToAdd = if (quote.timestamp == 0L) {
-                            quote.copy(timestamp = System.currentTimeMillis())
-                        } else {
-                            quote
-                        }
+                        val quoteToAdd =
+                                // if quote is being added to Favorites for the first time, set
+                                // corresponding timestamp
+                                if (quote.timestamp == 0L) {
+                                    quote.copy(timestamp = System.currentTimeMillis())
+                                } else {
+                                    quote
+                                }
                         favDao.addToFavorites(quoteToAdd)
                         Single.just(true)
                     } else {
@@ -79,7 +80,7 @@ constructor(private val apiService: ApiService, private val favDao: FavoritesDao
      * Provide quote text to be shared
      */
     override fun getShareQuoteText(quote: Quote): Single<String> {
-        return Single.just("\""+quote.quote+"\" —"+quote.author)
+        return Single.just("\"" + quote.quote + "\" —" + quote.author)
     }
 
     /**

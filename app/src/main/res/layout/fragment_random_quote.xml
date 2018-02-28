@@ -62,7 +62,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_author"
             app:layout_constraintVertical_bias="0.14999998"
-            app:srcCompat="@drawable/like_vector_anim"/>
+            app:srcCompat="@drawable/like_vector_anim"
+            app:animateIcon="@{quote.isLiked}"/>
 
         <ImageButton
             android:id="@+id/ib_share"

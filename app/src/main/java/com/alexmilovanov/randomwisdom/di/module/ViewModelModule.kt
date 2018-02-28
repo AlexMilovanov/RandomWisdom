@@ -2,10 +2,10 @@ package com.alexmilovanov.randomwisdom.di.module
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
-import com.alexmilovanov.randomwisdom.favorites.FavoriteQuotesViewModel
-import com.alexmilovanov.randomwisdom.randomquote.RandomQuoteViewModel
-import com.alexmilovanov.randomwisdom.splash.SplashViewModel
-import com.alexmilovanov.randomwisdom.uicommon.ViewModelFactory
+import com.alexmilovanov.randomwisdom.ui.favorites.FavoriteQuotesViewModel
+import com.alexmilovanov.randomwisdom.ui.randomquote.RandomQuoteViewModel
+import com.alexmilovanov.randomwisdom.ui.splash.SplashViewModel
+import com.alexmilovanov.randomwisdom.ui.common.ViewModelFactory
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap

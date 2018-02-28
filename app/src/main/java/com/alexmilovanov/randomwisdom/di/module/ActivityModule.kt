@@ -1,10 +1,10 @@
 package com.alexmilovanov.randomwisdom.di.module
 
-import com.alexmilovanov.randomwisdom.main.MainActivity
+import com.alexmilovanov.randomwisdom.ui.main.MainActivity
 import com.alexmilovanov.randomwisdom.di.Scopes
-import com.alexmilovanov.randomwisdom.main.MainActivityModule
-import com.alexmilovanov.randomwisdom.splash.SplashActivity
-import com.alexmilovanov.randomwisdom.splash.SplashActivityModule
+import com.alexmilovanov.randomwisdom.ui.main.MainActivityModule
+import com.alexmilovanov.randomwisdom.ui.splash.SplashActivity
+import com.alexmilovanov.randomwisdom.ui.splash.SplashActivityModule
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 

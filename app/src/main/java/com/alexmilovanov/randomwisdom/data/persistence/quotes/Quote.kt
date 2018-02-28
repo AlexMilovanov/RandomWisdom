@@ -2,6 +2,7 @@ package com.alexmilovanov.randomwisdom.data.persistence.quotes
 
 import android.arch.persistence.room.ColumnInfo
 import android.arch.persistence.room.Entity
+import android.arch.persistence.room.Ignore
 import android.arch.persistence.room.PrimaryKey
 import java.util.*
 
@@ -22,5 +23,8 @@ data class Quote (
         var author: String = "",
 
         @ColumnInfo(name = "timestamp")
-        var timestamp: Long = 0
+        var timestamp: Long = 0,
+
+        @Ignore
+        var isLiked: Boolean = false
 )

@@ -25,7 +25,7 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".splash.SplashActivity"
+            android:name="com.alexmilovanov.randomwisdom.ui.splash.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/SplashTheme">
             <intent-filter>
@@ -34,7 +34,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.alexmilovanov.randomwisdom.main.MainActivity"
+            android:name="com.alexmilovanov.randomwisdom.ui.main.MainActivity"
             android:screenOrientation="portrait"/>
 
     </application>
