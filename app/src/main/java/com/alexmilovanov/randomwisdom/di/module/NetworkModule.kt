@@ -7,6 +7,7 @@ import com.alexmilovanov.randomwisdom.data.ApiConstants.Companion.BASE_URL
 import com.alexmilovanov.randomwisdom.data.ApiConstants.Companion.HTTP_CONNECTION_TIMEOUT_SECONDS
 import com.alexmilovanov.randomwisdom.data.network.ApiService
 import com.alexmilovanov.randomwisdom.data.network.retrofit.ConnectivityInterceptor
+import com.alexmilovanov.randomwisdom.data.network.retrofit.ErrorInterceptor
 import com.alexmilovanov.randomwisdom.data.network.retrofit.HeadersInterceptor
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -29,6 +30,7 @@ class NetworkModule {
     @Provides
     @Singleton
     internal fun provideOkHttpClient(connectivityInterceptor: ConnectivityInterceptor,
+                                     errorInterceptor: ErrorInterceptor,
                                      headersInterceptor: HeadersInterceptor): OkHttpClient {
         // The singleton HTTP client.
         val builder = OkHttpClient.Builder().apply {
@@ -38,6 +40,7 @@ class NetworkModule {
             writeTimeout(HTTP_CONNECTION_TIMEOUT_SECONDS, TimeUnit.SECONDS)
             // Add required interceptors
             addInterceptor(connectivityInterceptor)
+            addInterceptor(errorInterceptor)
             addInterceptor(headersInterceptor)
             // Enable logs only in debug version
             addInterceptor(HttpLoggingInterceptor().setLevel(

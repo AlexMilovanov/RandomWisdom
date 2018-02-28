@@ -17,6 +17,20 @@
 
     <string name="error_msg_no_network">Internet not available. Please check your connection and try again.</string>
     <string name="error_msg_unexpected_error">Unexpected error occurred. Please try again later.</string>
+    <string name="error_msg_http_304">No new data to return. Please try again later.</string>
+    <string name="error_msg_http_400">The request is invalid or cannot be otherwise served.</string>
+    <string name="error_msg_http_401">Missing or incorrect authentication credentials.</string>
+    <string name="error_msg_http_403">Access not allowed.</string>
+    <string name="error_msg_http_404">Source not found.</string>
+    <string name="error_msg_http_406">Request not acceptable.</string>
+    <string name="error_msg_http_410">Source is no more available.</string>
+    <string name="error_msg_http_420">Application is making too many requests. Please try again later.</string>
+    <string name="error_msg_http_422">Data can not be processed.</string>
+    <string name="error_msg_http_429">Too many requests. Source not available.</string>
+    <string name="error_msg_http_500">Internal server error. Please try again later.</string>
+    <string name="error_msg_http_502">Bad gateway. Please try again later.</string>
+    <string name="error_msg_http_503">Service temporarily unavailable. Please try again later.</string>
+    <string name="error_msg_http_504">Gateway timeout. Please try again later.</string>
 
     <string name="content_desc_logo">Random Wisdom logo</string>
 </resources>

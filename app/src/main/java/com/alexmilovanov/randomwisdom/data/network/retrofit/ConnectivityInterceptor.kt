@@ -9,8 +9,9 @@ import okhttp3.Interceptor
 import okhttp3.Response
 import javax.inject.Inject
 
-
-// Class that implements Interceptor to perform a network connectivity check before executing the request.
+/**
+ * Class that implements Interceptor to perform a network connectivity check before executing the request.
+ */
 class ConnectivityInterceptor @Inject constructor(private val connectManager: ConnectivityManager,
                                                   private val resProvider: IResourceProvider)
     : Interceptor {
