@@ -8,6 +8,7 @@ import android.support.v7.widget.SearchView
 import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.*
 import com.alexmilovanov.randomwisdom.R
+import com.alexmilovanov.randomwisdom.data.persistence.quotes.Quote
 import com.alexmilovanov.randomwisdom.databinding.FragmentFavoriteQuotesBinding
 import com.alexmilovanov.randomwisdom.ui.main.MainNavigator
 import com.alexmilovanov.randomwisdom.mvibase.MviView
@@ -18,6 +19,7 @@ import com.alexmilovanov.randomwisdom.ui.common.BaseFragment
 import com.alexmilovanov.randomwisdom.util.resources.ResourceProvider
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
+import kotlinx.android.synthetic.main.fragment_favorite_quotes.*
 import javax.inject.Inject
 
 /**
@@ -69,8 +71,8 @@ class FavoriteQuotesFragment :
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
 
-        if(searchMenuItem!=null) {
-           filterIntentPublisher.onNext(FavoriteQuotesIntent.FilterQuotesIntent(""))
+        if (searchMenuItem != null) {
+            filterIntentPublisher.onNext(FavoriteQuotesIntent.FilterQuotesIntent(""))
         }
 
         inflater.inflate(R.menu.fragment_favorites, menu)
@@ -103,12 +105,7 @@ class FavoriteQuotesFragment :
 
     override fun render(state: FavoriteQuotesViewState) {
         if (!state.loading && state.error == null && state.favorites != null) {
-            listAdapter.apply {
-                if (itemCount == 0)
-                    add(state.favorites)
-                else if (itemCount != state.favorites.size)
-                    replaceAll(state.favorites)
-            }
+            refreshFavorites(state.favorites)
         }
     }
 
@@ -200,6 +197,24 @@ class FavoriteQuotesFragment :
                     shareIntentPublisher.onNext(FavoriteQuotesIntent.ShareQuoteIntent(quote))
                 }
         )
+    }
+
+    /**
+     * Update list of favorite quotes
+     */
+    private fun refreshFavorites(favorites: List<Quote>) {
+        layout_stateful.apply {
+            if (favorites.isNotEmpty())
+                showContent()
+            else
+                showEmpty()
+        }
+        listAdapter.apply {
+            if (itemCount == 0 && favorites.isNotEmpty())
+                add(favorites)
+            else if (itemCount != favorites.size)
+                replaceAll(favorites)
+        }
     }
 
     companion object {

@@ -27,4 +27,6 @@
     <dimen name="quote_list_text_size">18sp</dimen>
     <dimen name="author_list_text_size">14sp</dimen>
 
+    <dimen name="stateful_layout_text_size">16sp</dimen>
+
 </resources>

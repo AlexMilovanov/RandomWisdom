@@ -109,4 +109,6 @@ dependencies {
     implementation "com.daimajia.easing:library:$rootProject.androidViewAnimationEasingVersion"
     implementation "com.daimajia.androidanimations:library:$rootProject.androidViewAnimationVersion"
 
+    implementation "com.github.gturedi:stateful-layout:$rootProject.statefulLayoutVersion"
+
 }

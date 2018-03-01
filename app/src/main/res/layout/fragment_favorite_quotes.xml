@@ -3,9 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.intersog.tohuman.ui.symptoms.SymptomsListFragment">
 
-    <FrameLayout
+    <com.gturedi.views.StatefulLayout
+        android:id="@+id/layout_stateful"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:stfAnimationEnabled="false">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_favorites"
@@ -14,9 +16,9 @@
             android:padding="@dimen/padding_small"
             android:scrollbars="vertical"
             app:layoutManager="LinearLayoutManager">
+
         </android.support.v7.widget.RecyclerView>
 
-    </FrameLayout>
-
+    </com.gturedi.views.StatefulLayout>
 
 </layout>

@@ -27,4 +27,21 @@
         <item name="cardElevation">@dimen/card_view_elevation</item>
     </style>
 
+    <!--Stateful layout related styles-->
+    <style name="stfImage">
+        <item name="android:layout_width">@dimen/stfImageSize</item>
+        <item name="android:layout_height">@dimen/stfImageSize</item>
+        <item name="android:tint">@color/colorAccent</item>
+    </style>
+
+    <style name="stfMessage">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">@dimen/padding_standard</item>
+        <item name="android:layout_marginRight">@dimen/padding_standard</item>
+        <item name="android:layout_marginTop">@dimen/padding_medium</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">@dimen/stateful_layout_text_size</item>
+    </style>
+
 </resources>

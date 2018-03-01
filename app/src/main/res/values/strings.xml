@@ -34,4 +34,12 @@
     <string name="error_msg_http_504">Gateway timeout. Please try again later.</string>
 
     <string name="content_desc_logo">Random Wisdom logo</string>
+
+    <!--Stateful layout related strings-->
+    <string name="stfErrorMessage">@string/error_msg_unexpected_error</string>
+    <string name="stfOfflineMessage">@string/error_msg_no_network</string>
+    <string name="stfLocationOffMessage">Please enable location services</string>
+    <string name="stfEmptyMessage">No favorite quotes found.\nTime to add some ;)</string>
+    <string name="stfLoadingMessage">Loading…</string>
+    <string name="stfButtonText">Retry</string>
 </resources>

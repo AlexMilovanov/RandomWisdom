@@ -2,7 +2,7 @@
 
 buildscript {
 
-    ext.kotlin_version = '1.2.20'
+    ext.kotlin_version = '1.2.21'
     ext.android_plugin_version = '3.0.0-beta7'
     repositories {
         google()
@@ -32,16 +32,17 @@ ext {
     architectureComponentsVersion = '1.0.0'
     supportLibraryVersion = '27.0.2'
     constraintLayoutVersion = '1.1.0-beta5'
-    daggerVersion='2.13'
+    daggerVersion='2.14.1'
     gsonVersion='2.8.0'
     retrofitVersion = '2.3.0'
     okhttpVersion='3.8.1'
-    rxJava2Version='2.1.7'
-    rxAndroidVersion='2.0.1'
+    rxJava2Version='2.1.10'
+    rxAndroidVersion='2.0.2'
     rxKotlinVersion='2.2.0'
-    rxBindingsVersion='2.1.0'
-    timberVersion='4.5.1'
-    coroutines_version='0.20'
+    rxBindingsVersion='2.1.1'
+    timberVersion='4.6.1'
+    coroutines_version='0.22.3'
     androidViewAnimationVersion='2.3@aar'
     androidViewAnimationEasingVersion='2.0@aar'
+    statefulLayoutVersion='1.2.1'
 }
