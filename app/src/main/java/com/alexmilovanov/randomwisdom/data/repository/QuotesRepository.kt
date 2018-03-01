@@ -86,10 +86,17 @@ constructor(private val apiService: ApiService, private val favDao: FavoritesDao
     /**
      * Retrieve a favorite quotes list if exists. Return empty list otherwise.
      */
-    override fun getFavoritesQuotes(): Observable<List<Quote>> {
-        return favDao.loadFavoriteQuotes()
-                .defaultIfEmpty(mutableListOf())
-                .toObservable()
+    override fun getFavoritesQuotes(query: String): Observable<List<Quote>> {
+        return if (query.isEmpty()) {
+            favDao.loadFavoriteQuotes()
+                    .defaultIfEmpty(mutableListOf())
+                    .toObservable()
+        } else {
+            val containsQuery = "%$query%"
+            favDao.filterFavoriteQuotes(containsQuery)
+                    .defaultIfEmpty(mutableListOf())
+                    .toObservable()
+        }
     }
 
     /**

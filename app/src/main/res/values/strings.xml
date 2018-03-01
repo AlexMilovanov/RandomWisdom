@@ -10,6 +10,7 @@
     <string name="button_favorites">Favorites</string>
     <string name="button_share">Share</string>
     <string name="button_delete">Delete</string>
+    <string name="button_search">Search</string>
 
     <string name="author_dash">–</string>
 

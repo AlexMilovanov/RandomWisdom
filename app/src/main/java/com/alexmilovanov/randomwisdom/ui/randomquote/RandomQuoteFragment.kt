@@ -7,9 +7,7 @@ import android.arch.lifecycle.ViewModelProviders
 import android.databinding.BindingAdapter
 import android.graphics.drawable.AnimatedVectorDrawable
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.ImageView
 import com.alexmilovanov.randomwisdom.R

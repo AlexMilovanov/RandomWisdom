@@ -73,7 +73,8 @@ class FavoriteQuotesViewModel
      */
     private fun actionFromIntent(intent: FavoriteQuotesIntent): QuotesAction {
         return when (intent) {
-            InitialIntent -> QuotesAction.RequestFavoritesAction
+            InitialIntent -> QuotesAction.RequestFavoritesAction()
+            is FilterQuotesIntent -> QuotesAction.RequestFavoritesAction(intent.query)
             is DeleteQuoteIntent -> QuotesAction.RemoveFromFavoritesAction(intent.quote)
             is RestoreQuoteIntent -> AddToFavoritesAction(intent.quote)
             is ShareQuoteIntent -> ShareQuoteAction(intent.quote)
@@ -90,13 +91,14 @@ class FavoriteQuotesViewModel
     private val reducer = BiFunction { previousState: FavoriteQuotesViewState, result: QuotesResult ->
         when (result) {
             is RequestFavoritesResult -> when (result) {
-                is RequestFavoritesResult.Success ->
+                is RequestFavoritesResult.Success -> {
                     previousState.copy(
                             favorites = result.quotes,
                             loading = false,
                             error = null
 
                     )
+                }
                 RequestFavoritesResult.InFlight -> {
                     previousState.copy(
                             loading = true,
@@ -115,7 +117,9 @@ class FavoriteQuotesViewModel
                 is RemoveFromFavoritesResult.Success -> {
                     // notify user on successful quote removal from Favorites
                     notifyQuoteRemovedCommand.value = result.quote
-                    previousState
+                    val favorites = previousState.favorites?.toMutableList()
+                    favorites?.remove(result.quote)
+                    previousState.copy(favorites = favorites)
                 }
                 is RemoveFromFavoritesResult.Failure -> {
                     previousState.copy(
@@ -129,7 +133,9 @@ class FavoriteQuotesViewModel
                 is AddToFavoritesResult.Success -> {
                     // notify user quote has been restored in Favorites
                     notifyQuoteRestoredCommand.value = result.quote
-                    previousState
+                    val favorites = previousState.favorites?.toMutableList()
+                    favorites?.add(result.quote)
+                    previousState.copy(favorites = favorites)
                 }
                 is AddToFavoritesResult.Failure -> {
                     previousState.copy(

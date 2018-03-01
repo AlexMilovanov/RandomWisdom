@@ -125,8 +125,8 @@ class QuotesActionProcessorHolder
 
     private val favoriteQuotesProcessor =
             ObservableTransformer<RequestFavoritesAction, RequestFavoritesResult> { actions ->
-                actions.flatMap { _ ->
-                    quotesRepo.getFavoritesQuotes()
+                actions.flatMap { action ->
+                    quotesRepo.getFavoritesQuotes(action.query)
                             // Wrap returned data into an immutable object
                             .map { it -> RequestFavoritesResult.Success(it) }
                             .cast(RequestFavoritesResult::class.java)

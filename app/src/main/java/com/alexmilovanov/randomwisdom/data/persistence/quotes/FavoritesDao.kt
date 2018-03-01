@@ -16,6 +16,9 @@ abstract class FavoritesDao {
     @Query("SELECT * FROM favorites ORDER BY id")
     abstract fun loadFavoriteQuotes(): Flowable<List<Quote>>
 
+    @Query("SELECT * FROM favorites WHERE favorites.quote LIKE :query OR favorites.author LIKE :query ORDER BY id")
+    abstract fun filterFavoriteQuotes(query: String): Maybe<List<Quote>>
+
     @Query("SELECT * FROM favorites WHERE id LIKE :id LIMIT 1")
     abstract fun hasQuote(id: String): Maybe<Quote>
 

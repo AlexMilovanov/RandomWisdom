@@ -4,10 +4,9 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
+import android.support.v7.widget.SearchView
 import android.support.v7.widget.helper.ItemTouchHelper
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import com.alexmilovanov.randomwisdom.R
 import com.alexmilovanov.randomwisdom.databinding.FragmentFavoriteQuotesBinding
 import com.alexmilovanov.randomwisdom.ui.main.MainNavigator
@@ -43,11 +42,15 @@ class FavoriteQuotesFragment :
 
     private lateinit var binding: AutoClearedValue<FragmentFavoriteQuotesBinding>
 
+    private var searchMenuItem: MenuItem? = null
+
     private val deleteIntentPublisher = PublishSubject.create<FavoriteQuotesIntent.DeleteQuoteIntent>()
 
     private val restoreIntentPublisher = PublishSubject.create<FavoriteQuotesIntent.RestoreQuoteIntent>()
 
     private val shareIntentPublisher = PublishSubject.create<FavoriteQuotesIntent.ShareQuoteIntent>()
+
+    private val filterIntentPublisher = PublishSubject.create<FavoriteQuotesIntent.FilterQuotesIntent>()
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -57,20 +60,53 @@ class FavoriteQuotesFragment :
         val dataBinding = FragmentFavoriteQuotesBinding.inflate(inflater, container, false)
         binding = AutoClearedValue(this, dataBinding)
 
+        setHasOptionsMenu(true)
+
         setupListAdapter()
 
         return dataBinding.root
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+
+        if(searchMenuItem!=null) {
+           filterIntentPublisher.onNext(FavoriteQuotesIntent.FilterQuotesIntent(""))
+        }
+
+        inflater.inflate(R.menu.fragment_favorites, menu)
+
+        searchMenuItem = menu.findItem(R.id.action_search)
+        val searchView = searchMenuItem!!.actionView as SearchView
+        searchView.maxWidth = Integer.MAX_VALUE
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+
+            override fun onQueryTextSubmit(p0: String?) = false
+
+            override fun onQueryTextChange(query: String?): Boolean {
+                filterIntentPublisher.onNext(FavoriteQuotesIntent.FilterQuotesIntent(
+                        if (query.isNullOrEmpty()) "" else query!!
+                ))
+                return true
+            }
+        })
+
+    }
+
     override fun intents(): Observable<FavoriteQuotesIntent> =
-            Observable.merge(initialIntent(), deleteIntent(), restoreIntent(), shareIntent())
+            Observable.merge(listOf(
+                    initialIntent(),
+                    deleteQuoteIntent(),
+                    restoreQuoteIntent(),
+                    shareIntent(),
+                    filterIntent())
+            )
 
     override fun render(state: FavoriteQuotesViewState) {
         if (!state.loading && state.error == null && state.favorites != null) {
             listAdapter.apply {
-                if(itemCount == 0)
+                if (itemCount == 0)
                     add(state.favorites)
-                else
+                else if (itemCount != state.favorites.size)
                     replaceAll(state.favorites)
             }
         }
@@ -124,19 +160,25 @@ class FavoriteQuotesFragment :
      * The Intent the [MviView] emit to convey to the [MviViewModel]
      * to remove selected quote from Favorites
      */
-    private fun deleteIntent(): Observable<FavoriteQuotesIntent.DeleteQuoteIntent> = deleteIntentPublisher
+    private fun deleteQuoteIntent(): Observable<FavoriteQuotesIntent.DeleteQuoteIntent> = deleteIntentPublisher
 
     /**
      * The Intent the [MviView] emit to convey to the [MviViewModel]
      * to restore deleted quote in Favorites
      */
-    private fun restoreIntent(): Observable<FavoriteQuotesIntent.RestoreQuoteIntent> = restoreIntentPublisher
+    private fun restoreQuoteIntent(): Observable<FavoriteQuotesIntent.RestoreQuoteIntent> = restoreIntentPublisher
 
     /**
      * The Intent the [MviView] emit to convey to the [MviViewModel]
      * to share selected quote
      */
     private fun shareIntent(): Observable<FavoriteQuotesIntent.ShareQuoteIntent> = shareIntentPublisher
+
+    /**
+     * The Intent the [MviView] emit to convey to the [MviViewModel]
+     * to filter favorite quotes against given query
+     */
+    private fun filterIntent(): Observable<FavoriteQuotesIntent.FilterQuotesIntent> = filterIntentPublisher
 
     /**
      * The initial Intent the [MviView] emit to convey to the [MviViewModel]

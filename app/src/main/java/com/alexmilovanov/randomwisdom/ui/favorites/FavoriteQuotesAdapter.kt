@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.item_quote.view.*
  * A RecyclerView adapter implementation populating favorite quotes list.
  */
 class FavoriteQuotesAdapter (quotes: List<Quote>) : DataBoundListAdapter<Quote, ItemQuoteBinding> (
-        quotes, Quote::class.java, Comparator { p0, p1 -> p0.timestamp.compareTo(p1.timestamp) }
+        quotes, Quote::class.java, Comparator { q0, q1 -> q1.timestamp.compareTo(q0.timestamp) }
 ) {
 
     override fun createBinding(parent: ViewGroup): ItemQuoteBinding {
