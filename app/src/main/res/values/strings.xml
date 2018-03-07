@@ -33,7 +33,8 @@
     <string name="error_msg_http_503">Service temporarily unavailable. Please try again later.</string>
     <string name="error_msg_http_504">Gateway timeout. Please try again later.</string>
 
-    <string name="content_desc_logo">Random Wisdom logo</string>
+    <string name="content_desc_app_logo">App logo</string>
+    <string name="content_desc_company_logo">Company logo</string>
 
     <!--Stateful layout related strings-->
     <string name="stfErrorMessage">@string/error_msg_unexpected_error</string>

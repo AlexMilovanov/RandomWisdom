@@ -31,6 +31,16 @@
     volatile <fields>;
 }
 
+#Crashlytics
+-keep class com.crashlytics.** { *; }
+-dontwarn com.crashlytics.**
+#Keep Crashlytics annotations
+-keepattributes *Annotation*
+#Keep file names, line numbers
+-keepattributes SourceFile,LineNumberTable
+#Keep custom exceptions
+-keep public class * extends java.lang.Exception
+
 # Retrofit
 # Platform calls Class.forName on types which do not exist on Android to determine platform.
 -dontnote retrofit2.Platform
@@ -48,9 +58,6 @@
 # A resource is loaded with a relative path so the package of this class must be preserved.
 -keepnames class okhttp3.internal.publicsuffix.PublicSuffixDatabase
 
-#Picasso
--dontwarn com.squareup.okhttp.**
-
 #Gson
 # Gson uses generic type information stored in a class file when working with fields. Proguard
 # removes such information by trailer_weight_balance, so configure it to keep all of it.
@@ -67,9 +74,6 @@
 
 # For using GSON @Expose annotation
 -keepattributes *Annotation*
-
-# Android Billing Library
--keep class com.android.vending.billing.**
 
 # Dagger ProGuard rules.
 -keep class com.google.errorprone.annotations.** { *; }

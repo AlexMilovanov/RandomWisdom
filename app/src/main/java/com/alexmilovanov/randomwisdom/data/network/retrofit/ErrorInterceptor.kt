@@ -17,7 +17,7 @@ class ErrorInterceptor @Inject constructor(private val resProvider: IResourcePro
         val request = chain.request()
         val response = chain.proceed(request)
 
-        if(response.isSuccessful) return response
+        if(response.isSuccessful && response.code() in 200..299) return response
 
         val errorMsgRes = when (response.code()) {
             304 -> R.string.error_msg_http_304

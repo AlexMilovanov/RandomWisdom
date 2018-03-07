@@ -6,6 +6,11 @@ apply plugin: 'kotlin-android-extensions'
 
 apply plugin: 'kotlin-kapt'
 
+apply plugin: 'io.fabric'
+
+apply plugin: 'com.google.firebase.firebase-perf'
+
+
 android {
     compileSdkVersion 27
     defaultConfig {
@@ -13,7 +18,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 27
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.1"
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
@@ -30,7 +35,6 @@ android {
             //applicationIdSuffix ".debug"
         }
         release {
-            debuggable="false"
             shrinkResources true
             minifyEnabled true
             useProguard true
@@ -42,17 +46,24 @@ android {
     }
 }
 
-kotlin {
+/*kotlin {
     experimental {
         coroutines 'enable'
     }
-}
+}*/
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$rootProject.kotlin_version"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$rootProject.coroutines_version"
+    //implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$rootProject.coroutinesVersion"
+
+    //Firebase
+    implementation "com.google.firebase:firebase-core:$rootProject.firebaseVersion"
+    implementation "com.google.firebase:firebase-perf:$rootProject.firebaseVersion"
+    implementation ("com.crashlytics.sdk.android:crashlytics:$rootProject.crashlyticsVersion") {
+        transitive = true
+    }
 
     // Support libraries
     implementation "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
@@ -102,7 +113,6 @@ dependencies {
     implementation "com.jakewharton.rxbinding2:rxbinding-appcompat-v7-kotlin:$rootProject.rxBindingsVersion"
     implementation "com.jakewharton.rxbinding2:rxbinding-design-kotlin:$rootProject.rxBindingsVersion"
     implementation "com.jakewharton.rxbinding2:rxbinding-recyclerview-v7-kotlin:$rootProject.rxBindingsVersion"
-    implementation "com.jakewharton.rxbinding2:rxbinding-leanback-v17-kotlin:$rootProject.rxBindingsVersion"
 
     implementation "com.jakewharton.timber:timber:$rootProject.timberVersion"
 
@@ -110,5 +120,6 @@ dependencies {
     implementation "com.daimajia.androidanimations:library:$rootProject.androidViewAnimationVersion"
 
     implementation "com.github.gturedi:stateful-layout:$rootProject.statefulLayoutVersion"
-
 }
+
+apply plugin: 'com.google.gms.google-services'
